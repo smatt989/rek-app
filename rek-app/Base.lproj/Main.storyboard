@@ -170,7 +170,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xIY-IF-aRb">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xIY-IF-aRb">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
@@ -179,6 +179,7 @@
                     </view>
                     <connections>
                         <outlet property="mapview" destination="xIY-IF-aRb" id="l5r-YV-KHs"/>
+                        <segue destination="bCX-p5-c6p" kind="show" identifier="Map Annotation To Detail" id="j3N-h8-K2i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hbx-Qt-DqX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -511,4 +512,7 @@
     <resources>
         <image name="Checkbox empty" width="26" height="26"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="j3N-h8-K2i"/>
+    </inferredMetricsTieBreakers>
 </document>

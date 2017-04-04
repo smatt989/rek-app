@@ -27,6 +27,8 @@ struct Identifiers {
         static let destinationDetail = "Destination Detail"
         static let suggestDestination = "Suggest Screen Segue"
         static let mapview = "mapview segue"
+        static let mapToDetail = "Map Annotation To Detail"
+        static let reviewPopover = "review popover segue"
     }
     
     struct ViewControllers {

@@ -15,10 +15,35 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapview: MKMapView!
     
+    var selectedDestination: Destination?
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            //return nil so map view draws "blue dot" for standard user location
+            return nil
+        }
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+   
+        }
+        pinView!.canShowCallout = true
+        let button = UIButton(type: .detailDisclosure)
+        pinView!.rightCalloutAccessoryView = button
+        return pinView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        selectedDestination = view.annotation as? Destination
+        performSegue(withIdentifier: Identifiers.Segues.mapToDetail, sender: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapview.delegate = self
         mapview.addAnnotations(annotations)
+        mapview.showAnnotations(Array(annotations.prefix(10)), animated: true)
         // Do any additional setup after loading the view.
     }
 
@@ -28,14 +53,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == Identifiers.Segues.mapToDetail {
+            print("trying here")
+            if let viewController = segue.destination as? DestinationDetailViewController {
+                print("assigning here")
+                print("is defined?: \(selectedDestination != nil)")
+                viewController.destination = selectedDestination
+            }
+        }
     }
-    */
 
 }
