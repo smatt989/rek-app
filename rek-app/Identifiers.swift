@@ -14,6 +14,8 @@ struct Identifiers {
         static let searchCell = "cell"
         static let destinationCell = "Destination Cell"
         static let userSearchCell = "user search cell"
+        static let reviewCell = "Review Cell"
+        static let destinationSectionCell = "destination section header cell"
     }
     
     struct StoryBoards {
@@ -24,6 +26,7 @@ struct Identifiers {
     struct Segues {
         static let destinationDetail = "Destination Detail"
         static let suggestDestination = "Suggest Screen Segue"
+        static let mapview = "mapview segue"
     }
     
     struct ViewControllers {

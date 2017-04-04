@@ -8,6 +8,13 @@
 
 import Foundation
 
+struct Review {
+    var user: User
+    var destinationId: Int
+    var positiveRating: Bool?
+    var note: String?
+}
+
 struct ReviewRequest {
     var destinationId: Int
     var positiveRating: Bool

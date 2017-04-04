@@ -100,6 +100,69 @@ extension DestinationShareRequest {
     }
 }
 
+extension RichDestination {
+    
+    static func parseManyRichDestinations(data: Data) -> [RichDestination] {
+        let json = try? JSONSerialization.jsonObject(with: data, options: [])
+        
+        if let array = json as? [[String: Any]] {
+            return array.map{parseRichDestinationDict(dict: $0)}
+        }
+        return [RichDestination]()
+    }
+    
+    static func parseRichDestination(data: Data) -> RichDestination? {
+        if let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any] {
+            return parseRichDestinationDict(dict: json)
+        }
+        return nil
+    }
+    
+    static func parseRichDestinationDict(dict: [String: Any]) -> RichDestination {
+        let destination = Destination.parseDestinationDict(dict: dict["destination"] as! [String: Any])
+        let inboundRecommendations = (dict["inboundRecommendations"] as! [[String: Any]]).map{Recommendation.parseRecommendationDict(dict: $0)}
+        let reviews = (dict["reviews"] as! [[String: Any]]).map{Review.parseReviewDict(dict: $0)}
+        let ownReview = (dict["ownReview"] as? [String: Any]).map{Review.parseReviewDict(dict: $0)}
+        return RichDestination(destination: destination, inboundRecommendations: inboundRecommendations, reviews: reviews, ownReview: ownReview)
+    }
+}
+
+extension Review {
+    
+    static func parseReview(data: Data) -> Review? {
+        if let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any] {
+            return parseReviewDict(dict: json)
+        }
+        return nil
+    }
+    
+    static func parseReviewDict(dict: [String: Any]) -> Review {
+        let user = User.parseUserDict(dict: dict["user"] as! [String: Any])
+        let destinationId = dict["destinationId"] as! Int
+        let positiveRating = dict["positiveRating"] as? Bool
+        let note = dict["note"] as? String
+        return Review(user: user, destinationId: destinationId, positiveRating: positiveRating, note: note)
+    }
+}
+
+extension Recommendation {
+    
+    static func parseRecommendation(data: Data) -> Recommendation? {
+        if let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any] {
+            return parseRecommendationDict(dict: json)
+        }
+        return nil
+    }
+    
+    static func parseRecommendationDict(dict: [String: Any]) -> Recommendation {
+        let sender = User.parseUserDict(dict: dict["sender"] as! [String: Any])
+        let receiver = User.parseUserDict(dict: dict["receiver"] as! [String: Any])
+        let destination = Destination.parseDestinationDict(dict: dict["destination"] as! [String: Any])
+        let note = dict["note"] as? String
+        return Recommendation(sender: sender, receiver: receiver, destination: destination, note: note)
+    }
+}
+
 extension ReviewRequest {
     
     func toJsonDictionary() -> [String: Any] {

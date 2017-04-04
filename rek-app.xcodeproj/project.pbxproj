@@ -35,6 +35,13 @@
 		C9C6AE781E921A8C008B73A1 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE771E921A8C008B73A1 /* UserSearchTableViewCell.swift */; };
 		C9C6AE7A1E922035008B73A1 /* UserConnectionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE791E922035008B73A1 /* UserConnectionRequest.swift */; };
 		C9C6AE7C1E922C8C008B73A1 /* DestinationShareRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE7B1E922C8C008B73A1 /* DestinationShareRequest.swift */; };
+		C9C6AE7E1E93080B008B73A1 /* RichDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE7D1E93080B008B73A1 /* RichDestination.swift */; };
+		C9C6AE801E931730008B73A1 /* DestinationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE7F1E931730008B73A1 /* DestinationTableViewCell.swift */; };
+		C9C6AE821E9320D4008B73A1 /* DestinationUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE811E9320D4008B73A1 /* DestinationUtilities.swift */; };
+		C9C6AE841E936176008B73A1 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE831E936176008B73A1 /* ReviewTableViewCell.swift */; };
+		C9C6AE881E9373F2008B73A1 /* DestinationSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE871E9373F2008B73A1 /* DestinationSectionTableViewCell.swift */; };
+		C9C6AE8A1E9378C2008B73A1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE891E9378C2008B73A1 /* MapViewController.swift */; };
+		C9C6AE8C1E937DF0008B73A1 /* SectionHeaderUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE8B1E937DF0008B73A1 /* SectionHeaderUIButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +75,13 @@
 		C9C6AE771E921A8C008B73A1 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
 		C9C6AE791E922035008B73A1 /* UserConnectionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserConnectionRequest.swift; sourceTree = "<group>"; };
 		C9C6AE7B1E922C8C008B73A1 /* DestinationShareRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationShareRequest.swift; sourceTree = "<group>"; };
+		C9C6AE7D1E93080B008B73A1 /* RichDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RichDestination.swift; sourceTree = "<group>"; };
+		C9C6AE7F1E931730008B73A1 /* DestinationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationTableViewCell.swift; sourceTree = "<group>"; };
+		C9C6AE811E9320D4008B73A1 /* DestinationUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationUtilities.swift; sourceTree = "<group>"; };
+		C9C6AE831E936176008B73A1 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		C9C6AE871E9373F2008B73A1 /* DestinationSectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationSectionTableViewCell.swift; sourceTree = "<group>"; };
+		C9C6AE891E9378C2008B73A1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		C9C6AE8B1E937DF0008B73A1 /* SectionHeaderUIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeaderUIButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +146,7 @@
 				C94219341E8E1CB50068E50D /* LoginViewController.swift */,
 				C942195B1E8F17E10068E50D /* DestinationDetailViewController.swift */,
 				C94219611E920F280068E50D /* SuggestDestinationViewController.swift */,
+				C9C6AE891E9378C2008B73A1 /* MapViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -164,6 +179,7 @@
 				C94219371E8E1CB50068E50D /* Serialization.swift */,
 				C942194F1E8E1E9F0068E50D /* Identifiers.swift */,
 				C942194B1E8E1D1D0068E50D /* HttpRequests.swift */,
+				C9C6AE811E9320D4008B73A1 /* DestinationUtilities.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -176,6 +192,7 @@
 				C942195D1E90495D0068E50D /* Destination.swift */,
 				C942195F1E9099A00068E50D /* Review.swift */,
 				C9C6AE7B1E922C8C008B73A1 /* DestinationShareRequest.swift */,
+				C9C6AE7D1E93080B008B73A1 /* RichDestination.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -193,6 +210,10 @@
 			isa = PBXGroup;
 			children = (
 				C9C6AE771E921A8C008B73A1 /* UserSearchTableViewCell.swift */,
+				C9C6AE7F1E931730008B73A1 /* DestinationTableViewCell.swift */,
+				C9C6AE831E936176008B73A1 /* ReviewTableViewCell.swift */,
+				C9C6AE871E9373F2008B73A1 /* DestinationSectionTableViewCell.swift */,
+				C9C6AE8B1E937DF0008B73A1 /* SectionHeaderUIButton.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -273,12 +294,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9C6AE821E9320D4008B73A1 /* DestinationUtilities.swift in Sources */,
+				C9C6AE7E1E93080B008B73A1 /* RichDestination.swift in Sources */,
+				C9C6AE881E9373F2008B73A1 /* DestinationSectionTableViewCell.swift in Sources */,
 				C94219621E920F280068E50D /* SuggestDestinationViewController.swift in Sources */,
 				C94219471E8E1CB50068E50D /* SignUpViewController.swift in Sources */,
 				C94219421E8E1CB50068E50D /* LoginViewController.swift in Sources */,
+				C9C6AE8C1E937DF0008B73A1 /* SectionHeaderUIButton.swift in Sources */,
 				C94219451E8E1CB50068E50D /* Session+CoreDataClass.swift in Sources */,
 				C94219401E8E1CB50068E50D /* DataModel.xcdatamodeld in Sources */,
+				C9C6AE801E931730008B73A1 /* DestinationTableViewCell.swift in Sources */,
 				C942195C1E8F17E10068E50D /* DestinationDetailViewController.swift in Sources */,
+				C9C6AE841E936176008B73A1 /* ReviewTableViewCell.swift in Sources */,
 				C942194C1E8E1D1D0068E50D /* HttpRequests.swift in Sources */,
 				C94219441E8E1CB50068E50D /* Serialization.swift in Sources */,
 				C9C6AE7C1E922C8C008B73A1 /* DestinationShareRequest.swift in Sources */,
@@ -295,6 +322,7 @@
 				C942194E1E8E1E1C0068E50D /* UIFormViewController.swift in Sources */,
 				C942193D1E8E1CB50068E50D /* Authentication.swift in Sources */,
 				C9C6AE7A1E922035008B73A1 /* UserConnectionRequest.swift in Sources */,
+				C9C6AE8A1E9378C2008B73A1 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

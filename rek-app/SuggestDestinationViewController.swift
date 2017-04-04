@@ -28,6 +28,14 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
         dismiss(animated: true, completion: nil)
     }
     
+    private func setup() {
+        if destination != nil {
+            DispatchQueue.main.async { [weak weakself = self] in
+                weakself?.destinationNameLabel.text = weakself?.destination?.name
+            }
+        }
+    }
+    
     private var placeholderText = "Add a note..."
     
     private func setupSuggestionNoteInput() {
@@ -211,6 +219,7 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        setup()
         setupSuggestionNoteInput()
         setupSearchBox()
     }

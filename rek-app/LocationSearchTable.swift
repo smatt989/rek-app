@@ -23,7 +23,7 @@ extension LocationSearchTable: UISearchResultsUpdating {
             let request = MKLocalSearchRequest()
             request.naturalLanguageQuery = searchBarText
             request.region = MKCoordinateRegion(center: loc, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
-            let search = MKLocalSearch(request: request)
+        let search = MKLocalSearch(request: request)
             search.start { response, _ in
                 guard let response = response else {
                     return

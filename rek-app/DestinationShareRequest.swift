@@ -13,3 +13,10 @@ struct DestinationShareRequest {
     let shareWithUserId: Int
     let note: String?
 }
+
+struct Recommendation {
+    var sender: User
+    var receiver: User
+    var destination: Destination
+    var note: String?
+}

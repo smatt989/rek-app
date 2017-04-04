@@ -191,7 +191,7 @@ extension Destination {
         static let loadSavedDestination = domain + "/destinations/retrieve"
     }
     
-    static func loadSavedDestination(_ destination: Destination, success: @escaping(Destination) -> Void, failure: @escaping (Error) -> Void) {        
+    static func loadSavedDestination(_ destination: Destination, success: @escaping(RichDestination) -> Void, failure: @escaping (Error) -> Void) {
         var request = URLRequest(url: URL(string: Urls.loadSavedDestination)!)
         request.httpMethod = "POST"
         request.authenticate()
@@ -200,11 +200,34 @@ extension Destination {
         let session = URLSession.shared
         session.dataTask(with: request) { data, response, err in
             if data != nil {
-                success(Destination.parseDestination(data: data!)!)
+                success(RichDestination.parseRichDestination(data: data!)!)
             } else if err != nil {
                 failure(err!)
             } else {
                 print("bad")
+            }
+            }.resume()
+    }
+}
+
+extension RichDestination {
+    
+    struct Urls {
+        static let loadPersonalizedDestinations = domain + "/destinations/personalized"
+    }
+    
+    static func fetchDestinations(location: CLLocationCoordinate2D, callback: @escaping ([RichDestination]) -> Void) {
+        var request = URLRequest(url: URL(string: Urls.loadPersonalizedDestinations)!)
+        request.httpMethod = "GET"
+        request.authenticate()
+        request.jsonRequest()
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, err in
+            if let d = data {
+                let dests = self.parseManyRichDestinations(data: d)
+                callback(dests)
+            } else if err != nil {
+                print("BIG PROBLEMO")
             }
             }.resume()
     }

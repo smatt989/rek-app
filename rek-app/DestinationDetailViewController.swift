@@ -8,17 +8,26 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-class DestinationDetailViewController: UIViewController {
+class DestinationDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    
+    var richDestination: RichDestination? {
+        didSet {
+            setupRichView()
+        }
+    }
     
     var destination: Destination? {
         didSet {
-            print("ID = \(destination?.id)")
-            if destination?.id == nil {
+            if destination?.id == nil || richDestination == nil {
                 loadSavedDestination()
             }
         }
     }
+    
+    var currentLocation: CLLocationCoordinate2D?
     
     private var like: Bool? {
         didSet {
@@ -26,15 +35,40 @@ class DestinationDetailViewController: UIViewController {
             if like != nil && like! {
                 createAndSendReviewRequest(positiveRating: true, note: nil)
                 likeButton.tintColor = UIColor.green
+                dislikeButton.tintColor = UIColor.lightGray
             } else if like != nil && !like! {
                 createAndSendReviewRequest(positiveRating: false, note: nil)
                 dislikeButton.tintColor = UIColor.red
+                likeButton.tintColor = UIColor.lightGray
             }
         }
     }
 
     @IBOutlet weak var destinationName: UILabel!
     @IBOutlet weak var destinationAddress: UILabel!
+    @IBOutlet weak var reviewView: UIView!
+    @IBOutlet weak var reviewRatingLabel: UILabel!
+    @IBOutlet weak var reviewCountLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    
+    @IBOutlet weak var reviewTable: UITableView!
+    
+    @IBOutlet weak var reviewTableToggle: UISegmentedControl!
+    
+    var suggestionsOnToggle = true {
+        didSet {
+            redrawTable()
+        }
+    }
+    
+    @IBAction func reviewTypeToggle(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0: suggestionsOnToggle = true
+        case 1: suggestionsOnToggle = false
+        default: break
+        }
+    }
+    
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var dislikeButton: UIButton!
     
@@ -63,6 +97,8 @@ class DestinationDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        reviewTable.delegate = self
+        reviewTable.dataSource = self
         // Do any additional setup after loading the view.
     }
 
@@ -78,10 +114,43 @@ class DestinationDetailViewController: UIViewController {
         mapview.region = MKCoordinateRegion(center: destination!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
     }
     
+    private func setupRichView() {
+        DispatchQueue.main.async { [weak weakself = self] in
+            weakself?.setupRatingView()
+            weakself?.like = weakself?.richDestination?.ownReview?.positiveRating
+            weakself?.setupDistanceLabel()
+            weakself?.redrawTable()
+        }
+    }
+    
+    private func setupRatingView() {
+        if richDestination != nil {
+            if richDestination!.reviewCount > 0 {
+                reviewCountLabel.text = "\(richDestination!.reviewCount) reviews"
+                reviewRatingLabel.text = "\(Int(richDestination!.reviewRating! * 100))%"
+                reviewView.isHidden = false
+            } else {
+                reviewView.isHidden = true
+            }
+        }
+    }
+    
+    private func setupDistanceLabel() {
+        if richDestination != nil {
+            if currentLocation != nil {
+                distanceLabel.text = DestinationUtilities.distanceToString(distance: richDestination!.distanceAway(currentLocation: currentLocation!))
+                distanceLabel.isHidden = false
+            } else {
+                distanceLabel.isHidden = true
+            }
+        }
+    }
+    
     private func loadSavedDestination() {
         if let dest = destination {
             Destination.loadSavedDestination(dest, success: { [weak weakself = self] d in
-                weakself?.destination = d
+                weakself?.richDestination = d
+                weakself?.destination = d.destination
                 }, failure: { err in
                     print("BIG ERROR: \(err.localizedDescription)")
             })
@@ -94,6 +163,56 @@ class DestinationDetailViewController: UIViewController {
                 viewController.destination = destination
             }
         }
+    }
+    
+    private func redrawTable()  {
+        DispatchQueue.main.async { [weak weakself = self] in
+            weakself?.reviewTable.reloadData()
+            weakself?.reviewTable.setNeedsDisplay()
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if richDestination != nil {
+            if suggestionsOnToggle {
+                return richDestination!.inboundRecommendations.count
+            } else {
+                return richDestination!.reviewCount
+            }
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.Cells.reviewCell, for: indexPath) as! ReviewTableViewCell
+        
+        cell.userNameLabel.textColor = UIColor.black
+        if suggestionsOnToggle {
+            let recommendation = richDestination!.inboundRecommendations[indexPath.row]
+            cell.userNameLabel.text = recommendation.sender.username
+            cell.reviewTextView.text = recommendation.note
+        } else {
+            let review = richDestination!.reviews[indexPath.row]
+            var likeText = ""
+            if review.positiveRating != nil && review.positiveRating! {
+                likeText = "(like)"
+                cell.userNameLabel.textColor = UIColor.green
+            }
+            if review.positiveRating != nil && !review.positiveRating! {
+                likeText = "(dislike)"
+                cell.userNameLabel.textColor = UIColor.red
+            }
+            cell.userNameLabel.text = "\(review.user.username) \(likeText)"
+            
+            
+            cell.reviewTextView.text = review.note
+        }
+        
+        return cell
     }
 
     /*
