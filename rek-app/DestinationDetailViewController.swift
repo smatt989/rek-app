@@ -55,6 +55,10 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
     
     @IBOutlet weak var reviewTableToggle: UISegmentedControl!
     
+    @IBAction func mapButtonTap(_ sender: UIButton) {
+        openInMaps()
+    }
+    
     var suggestionsOnToggle = true {
         didSet {
             redrawTable()
@@ -81,10 +85,6 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
     @IBAction func dislikeButtonTap(_ sender: UIButton) {
         like = false
         performSegue(withIdentifier: Identifiers.Segues.positiveReviewPopover, sender: self)
-    }
-    
-    @IBAction func directionsButtonTap(_ sender: UIButton) {
-        openInMaps()
     }
     
     private func resetLikeButtons() {
@@ -135,6 +135,17 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
             weakself?.like = weakself?.richDestination?.ownReview?.positiveRating
             weakself?.setupDistanceLabel()
             weakself?.redrawTable()
+            weakself?.reviewTableToggle.setTitle("Recommendations (\(weakself!.richDestination!.inboundRecommendations.count))", forSegmentAt: 0)
+            weakself?.reviewTableToggle.setTitle("Reviews (\(weakself!.richDestination!.reviews.count))", forSegmentAt: 1)
+            var toSelect = 0
+            if weakself?.richDestination?.inboundRecommendations.count ?? 0 > 0 {
+                toSelect = 0
+                weakself?.suggestionsOnToggle = true
+            } else {
+                toSelect = 1
+                weakself?.suggestionsOnToggle = false
+            }
+            weakself?.reviewTableToggle.selectedSegmentIndex = toSelect
         }
     }
     
@@ -182,6 +193,11 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
                 viewController.like = like
                 viewController.reviewText = richDestination?.ownReview?.note
                 viewController.makeReviewFunction = createAndSendReviewRequest
+            }
+        } else if segue.identifier == Identifiers.Segues.detailsToMap {
+            if let viewController = segue.destination as? MapViewController {
+                viewController.annotations = [richDestination!]
+                viewController.selectedDestination = richDestination
             }
         }
     }

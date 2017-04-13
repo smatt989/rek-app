@@ -33,6 +33,9 @@
 		C94219621E920F280068E50D /* SuggestDestinationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94219611E920F280068E50D /* SuggestDestinationViewController.swift */; };
 		C95F6E5A1E9EA99B0089A37D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95F6E591E9EA99B0089A37D /* Assets.xcassets */; };
 		C95F6E5C1E9EDEF80089A37D /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F6E5B1E9EDEF80089A37D /* ReviewViewController.swift */; };
+		C95F6E621E9F3DD00089A37D /* FollowUnfollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F6E611E9F3DD00089A37D /* FollowUnfollowTableViewCell.swift */; };
+		C95F6E641E9F41910089A37D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F6E631E9F41910089A37D /* ProfileViewController.swift */; };
+		C95F6E661E9F55EC0089A37D /* MapCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F6E651E9F55EC0089A37D /* MapCalloutView.swift */; };
 		C9C6AE781E921A8C008B73A1 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE771E921A8C008B73A1 /* UserSearchTableViewCell.swift */; };
 		C9C6AE7A1E922035008B73A1 /* UserConnectionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE791E922035008B73A1 /* UserConnectionRequest.swift */; };
 		C9C6AE7C1E922C8C008B73A1 /* DestinationShareRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE7B1E922C8C008B73A1 /* DestinationShareRequest.swift */; };
@@ -74,6 +77,9 @@
 		C94219611E920F280068E50D /* SuggestDestinationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestDestinationViewController.swift; sourceTree = "<group>"; };
 		C95F6E591E9EA99B0089A37D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C95F6E5B1E9EDEF80089A37D /* ReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
+		C95F6E611E9F3DD00089A37D /* FollowUnfollowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowUnfollowTableViewCell.swift; sourceTree = "<group>"; };
+		C95F6E631E9F41910089A37D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C95F6E651E9F55EC0089A37D /* MapCalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCalloutView.swift; sourceTree = "<group>"; };
 		C9C6AE771E921A8C008B73A1 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
 		C9C6AE791E922035008B73A1 /* UserConnectionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserConnectionRequest.swift; sourceTree = "<group>"; };
 		C9C6AE7B1E922C8C008B73A1 /* DestinationShareRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationShareRequest.swift; sourceTree = "<group>"; };
@@ -150,6 +156,7 @@
 				C94219611E920F280068E50D /* SuggestDestinationViewController.swift */,
 				C9C6AE891E9378C2008B73A1 /* MapViewController.swift */,
 				C95F6E5B1E9EDEF80089A37D /* ReviewViewController.swift */,
+				C95F6E631E9F41910089A37D /* ProfileViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -217,6 +224,8 @@
 				C9C6AE831E936176008B73A1 /* ReviewTableViewCell.swift */,
 				C9C6AE871E9373F2008B73A1 /* DestinationSectionTableViewCell.swift */,
 				C9C6AE8B1E937DF0008B73A1 /* SectionHeaderUIButton.swift */,
+				C95F6E611E9F3DD00089A37D /* FollowUnfollowTableViewCell.swift */,
+				C95F6E651E9F55EC0089A37D /* MapCalloutView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -303,12 +312,14 @@
 				C9C6AE881E9373F2008B73A1 /* DestinationSectionTableViewCell.swift in Sources */,
 				C94219621E920F280068E50D /* SuggestDestinationViewController.swift in Sources */,
 				C94219471E8E1CB50068E50D /* SignUpViewController.swift in Sources */,
+				C95F6E641E9F41910089A37D /* ProfileViewController.swift in Sources */,
 				C94219421E8E1CB50068E50D /* LoginViewController.swift in Sources */,
 				C9C6AE8C1E937DF0008B73A1 /* SectionHeaderUIButton.swift in Sources */,
 				C94219451E8E1CB50068E50D /* Session+CoreDataClass.swift in Sources */,
 				C94219401E8E1CB50068E50D /* DataModel.xcdatamodeld in Sources */,
 				C9C6AE801E931730008B73A1 /* DestinationTableViewCell.swift in Sources */,
 				C942195C1E8F17E10068E50D /* DestinationDetailViewController.swift in Sources */,
+				C95F6E661E9F55EC0089A37D /* MapCalloutView.swift in Sources */,
 				C9C6AE841E936176008B73A1 /* ReviewTableViewCell.swift in Sources */,
 				C942194C1E8E1D1D0068E50D /* HttpRequests.swift in Sources */,
 				C94219441E8E1CB50068E50D /* Serialization.swift in Sources */,
@@ -322,6 +333,7 @@
 				C94219161E8E1B5B0068E50D /* AppDelegate.swift in Sources */,
 				C94219501E8E1E9F0068E50D /* Identifiers.swift in Sources */,
 				C94219581E8EFB800068E50D /* LocationFinder.swift in Sources */,
+				C95F6E621E9F3DD00089A37D /* FollowUnfollowTableViewCell.swift in Sources */,
 				C94219461E8E1CB50068E50D /* Session+CoreDataProperties.swift in Sources */,
 				C942194E1E8E1E1C0068E50D /* UIFormViewController.swift in Sources */,
 				C942193D1E8E1CB50068E50D /* Authentication.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 class RichDestination: NSObject {
     var destination: Destination
@@ -41,5 +42,22 @@ class RichDestination: NSObject {
     func distanceAway(currentLocation: CLLocationCoordinate2D) -> CLLocationDistance {
         return CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
             .distance(from: CLLocation(latitude: destination.latitude, longitude: destination.longitude))
+    }
+}
+
+extension RichDestination: MKAnnotation {
+    var coordinate: CLLocationCoordinate2D {
+        get {
+            return destination.coordinate
+        }
+        set {
+            destination.coordinate = coordinate
+        }
+    }
+    
+    var title: String? {
+        get {
+            return destination.name
+        }
     }
 }

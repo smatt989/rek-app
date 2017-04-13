@@ -64,7 +64,7 @@ class DestinationTableViewCell: UITableViewCell {
     }
     
     private func recommendationsToString(recommendations: [Recommendation]) -> String {
-        var str = "Shared by "+recommendations.first!.sender.username
+        var str = "Recommended by "+recommendations.first!.sender.username
         var other = "other"
         if recommendations.count > 2 {
             other = "others"

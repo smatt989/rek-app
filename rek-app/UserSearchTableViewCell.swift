@@ -30,7 +30,6 @@ class UserSearchTableViewCell: UITableViewCell {
     }
     
     func setup() {
-        print("trying to setup...")
         DispatchQueue.main.async{ [weak weakself = self] in
             if weakself?.user != nil {
                 weakself?.usernameLabel.text = weakself?.user?.username

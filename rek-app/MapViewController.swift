@@ -11,11 +11,11 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
-    var annotations = [Destination]()
+    var annotations = [RichDestination]()
     
     @IBOutlet weak var mapview: MKMapView!
     
-    var selectedDestination: Destination?
+    var selectedDestination: RichDestination?
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
@@ -31,11 +31,27 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         pinView!.canShowCallout = true
         let button = UIButton(type: .detailDisclosure)
         pinView!.rightCalloutAccessoryView = button
+
+        
         return pinView
     }
     
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        
+//        let calloutView = MapCalloutView()
+//        calloutView.richDestination = view.annotation as! RichDestination
+//        calloutView.setup(view: view)
+//        view.insertSubview(calloutView, at: 10)
+//    }
+//    
+//    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+//        for v in view.subviews {
+//            v.removeFromSuperview()
+//        }
+//    }
+    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        selectedDestination = view.annotation as? Destination
+        selectedDestination = view.annotation as? RichDestination
         performSegue(withIdentifier: Identifiers.Segues.mapToDetail, sender: nil)
     }
     
@@ -44,7 +60,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapview.delegate = self
         mapview.addAnnotations(annotations)
         mapview.showAnnotations(Array(annotations.prefix(10)), animated: true)
-        // Do any additional setup after loading the view.
+        if selectedDestination != nil {
+            mapview.selectAnnotation(selectedDestination!, animated: true)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,7 +77,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if let viewController = segue.destination as? DestinationDetailViewController {
                 print("assigning here")
                 print("is defined?: \(selectedDestination != nil)")
-                viewController.destination = selectedDestination
+                viewController.richDestination = selectedDestination
+                viewController.destination = selectedDestination?.destination
             }
         }
     }

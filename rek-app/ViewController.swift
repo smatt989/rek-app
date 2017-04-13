@@ -224,22 +224,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         else if segue.identifier == Identifiers.Segues.mapview {
-            print("1")
             if let button = sender as? SectionHeaderUIButton, let viewController = segue.destination as? MapViewController {
-                print("2")
-                viewController.annotations = lookupArrayBySection(button.section).map{$0.destination}
+                viewController.annotations = lookupArrayBySection(button.section)
+            }
+        } else if segue.identifier == Identifiers.Segues.profile {
+            if let viewController = segue.destination as? ProfileViewController {
+                viewController.reviewCount = myDestinations.count
             }
         }
     }
     
     private func makeSegue() {
         performSegue(withIdentifier: Identifiers.Segues.destinationDetail, sender: self)
-    }
-
-    @IBAction func logoutButtonTap(_ sender: UIBarButtonItem) {
-        User.logout{ [weak weakself = self] in
-            weakself?.appDelegate.routeGivenAuthentication()
-        }
     }
 }
 

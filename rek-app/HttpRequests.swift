@@ -19,7 +19,9 @@ extension User {
         static let deviceToken = domain+"/users/tokens"
         static let usersSearch = domain+"/users/search"
         static let addedUsers = domain+"/users/connections/added"
+        static let awaitingUsers = domain+"/users/connections/awaiting"
         static let addUserConnection = domain+"/users/connections/create"
+        static let removeUserConnection = domain+"/users/connections/delete"
     }
     
     struct Headers {
@@ -165,6 +167,23 @@ extension User {
             }.resume()
     }
     
+    static func awaitingUsers(success: @escaping ([User]) -> Void, failure: @escaping (Error) -> Void) {
+        var request = URLRequest(url: URL(string: Urls.awaitingUsers)!)
+        request.httpMethod = "GET"
+        request.authenticate()
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, err in
+            if let d = data {
+                let users = User.parseMany(data: d)
+                success(users)
+            } else if err != nil {
+                failure(err!)
+            } else {
+                print("BRARRR")
+            }
+            }.resume()
+    }
+    
     static func addUser(addUserRequest: UserConnectionAddRequest, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         var request = URLRequest(url: URL(string: Urls.addUserConnection)!)
         request.httpMethod = "POST"
@@ -181,6 +200,24 @@ extension User {
                 print("MOOSH")
             }
             }.resume()
+    }
+    
+    static func removeUser(userId: Int, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        var request = URLRequest(url: URL(string: Urls.removeUserConnection)!)
+        request.httpMethod = "POST"
+        request.authenticate()
+        request.jsonRequest()
+        request.httpBody = try! JSONSerialization.data(withJSONObject: ["removeUserId": userId], options: [])
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, err in
+            if data != nil {
+                success()
+            } else if err != nil {
+                failure(err!)
+            } else {
+                print("blekkkki")
+            }
+        }.resume()
     }
 
 }
