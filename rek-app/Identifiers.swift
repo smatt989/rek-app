@@ -29,6 +29,7 @@ struct Identifiers {
         static let mapview = "mapview segue"
         static let mapToDetail = "Map Annotation To Detail"
         static let reviewPopover = "review popover segue"
+        static let positiveReviewPopover="like review segue"
     }
     
     struct ViewControllers {
@@ -37,5 +38,5 @@ struct Identifiers {
 }
 
 let domain = "http://localhost:8080"
-//let domain = "https://gentle-bayou-26619.herokuapp.com"
+//let domain = "http://rekkiapp-env.us-east-1.elasticbeanstalk.com"
     

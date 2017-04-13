@@ -33,11 +33,11 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         didSet {
             resetLikeButtons()
             if like != nil && like! {
-                createAndSendReviewRequest(positiveRating: true, note: nil)
+                //createAndSendReviewRequest(positiveRating: true, note: nil)
                 likeButton.tintColor = UIColor.green
                 dislikeButton.tintColor = UIColor.lightGray
             } else if like != nil && !like! {
-                createAndSendReviewRequest(positiveRating: false, note: nil)
+                //createAndSendReviewRequest(positiveRating: false, note: nil)
                 dislikeButton.tintColor = UIColor.red
                 likeButton.tintColor = UIColor.lightGray
             }
@@ -80,6 +80,11 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
     
     @IBAction func dislikeButtonTap(_ sender: UIButton) {
         like = false
+        performSegue(withIdentifier: Identifiers.Segues.positiveReviewPopover, sender: self)
+    }
+    
+    @IBAction func directionsButtonTap(_ sender: UIButton) {
+        openInMaps()
     }
     
     private func resetLikeButtons() {
@@ -87,10 +92,20 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         dislikeButton.tintColor = UIColor.blue
     }
     
+    private func openInMaps(){
+        let coordinate = destination!.coordinate
+        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
+        mapItem.name = destination?.name
+        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+    }
+    
     private func createAndSendReviewRequest(positiveRating: Bool, note: String?) {
         if let id = destination?.id {
             let review = ReviewRequest(destinationId: id, positiveRating: positiveRating, note: note)
-            ReviewRequest.postReviewRequest(review, success: {_ in print("ok did it")}, failure: { err in print("crap an error: \(err)")})
+            ReviewRequest.postReviewRequest(review, success: {[weak weakself = self] r in
+                weakself?.richDestination?.ownReview = r
+                weakself?.setupRichView()
+            }, failure: { err in print("crap an error: \(err)")})
         }
     }
     
@@ -111,7 +126,7 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         destinationName.text = destination?.name
         destinationAddress.text = destination?.address
         mapview.addAnnotation(destination!)
-        mapview.region = MKCoordinateRegion(center: destination!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02))
+        mapview.region = MKCoordinateRegion(center: destination!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
     }
     
     private func setupRichView() {
@@ -161,6 +176,12 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         if segue.identifier == Identifiers.Segues.suggestDestination {
             if let viewController = segue.destination as? SuggestDestinationViewController {
                 viewController.destination = destination
+            }
+        } else if segue.identifier == Identifiers.Segues.positiveReviewPopover {
+            if let viewController = segue.destination as? ReviewViewController {
+                viewController.like = like
+                viewController.reviewText = richDestination?.ownReview?.note
+                viewController.makeReviewFunction = createAndSendReviewRequest
             }
         }
     }
@@ -214,15 +235,5 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         
         return cell
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

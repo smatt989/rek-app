@@ -264,7 +264,7 @@ extension ReviewRequest {
         static let createReview = domain + "/destinations/review/save"
     }
     
-    static func postReviewRequest(_ reviewRequest: ReviewRequest, success: @escaping() -> Void, failure: @escaping (Error) -> Void) {
+    static func postReviewRequest(_ reviewRequest: ReviewRequest, success: @escaping(Review) -> Void, failure: @escaping (Error) -> Void) {
         var request = URLRequest(url: URL(string: Urls.createReview)!)
         request.httpMethod = "POST"
         request.authenticate()
@@ -273,7 +273,8 @@ extension ReviewRequest {
         let session = URLSession.shared
         session.dataTask(with: request) { data, response, err in
             if data != nil {
-                success()
+                let review = Review.parseReview(data: data!)
+                success(review!)
             } else if err != nil {
                 failure(err!)
             } else {

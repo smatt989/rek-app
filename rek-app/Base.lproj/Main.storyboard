@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pxX-Nv-oUD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pxX-Nv-oUD">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -255,6 +255,7 @@
                                 <state key="normal" title="Like"/>
                                 <connections>
                                     <action selector="likeButtonTap:" destination="bCX-p5-c6p" eventType="touchUpInside" id="JFN-rr-MgV"/>
+                                    <segue destination="VBx-5q-KEX" kind="presentation" identifier="like review segue" id="9wF-7G-Pyu"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5oK-5c-dcp">
@@ -358,6 +359,14 @@
                                     <action selector="reviewTypeToggle:" destination="bCX-p5-c6p" eventType="valueChanged" id="Ka2-3i-1AX"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFK-bd-RKg">
+                                <rect key="frame" x="180" y="251" width="68" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="directions"/>
+                                <connections>
+                                    <action selector="directionsButtonTap:" destination="bCX-p5-c6p" eventType="touchUpInside" id="GEa-ae-5hq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -455,9 +464,9 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FEd-8m-MpU">
-                                                    <rect key="frame" x="269" y="8" width="30" height="30"/>
+                                                    <rect key="frame" x="264" y="8" width="41" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="add"/>
+                                                    <state key="normal" title="follow"/>
                                                     <connections>
                                                         <action selector="addConnectionButtonTap:" destination="YIk-q8-ujE" eventType="touchUpInside" id="tPD-63-F9C"/>
                                                     </connections>
@@ -490,6 +499,72 @@
             </objects>
             <point key="canvasLocation" x="3309.5999999999999" y="301.79910044977515"/>
         </scene>
+        <!--Review View Controller-->
+        <scene sceneID="yLa-qf-XBa">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="VBx-5q-KEX" customClass="ReviewViewController" customModule="rek_app" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CJV-b0-7ha"/>
+                        <viewControllerLayoutGuide type="bottom" id="0G4-um-Ned"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Qd9-YX-Sus">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dvP-gR-D0r">
+                                <rect key="frame" x="37" y="222" width="300" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EX7-me-oYu">
+                                        <rect key="frame" x="236" y="170" width="56" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Done&gt;&gt;"/>
+                                        <connections>
+                                            <action selector="doneButtonTap:" destination="VBx-5q-KEX" eventType="touchUpInside" id="uku-cM-FYe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iCh-se-Vdz">
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Like"/>
+                                        <connections>
+                                            <action selector="likeButtonTap:" destination="VBx-5q-KEX" eventType="touchUpInside" id="ITk-BU-Sn5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJu-ib-nU9">
+                                        <rect key="frame" x="150" y="0.0" width="150" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Dislike"/>
+                                        <connections>
+                                            <action selector="dislikeButtonTap:" destination="VBx-5q-KEX" eventType="touchUpInside" id="7y3-tL-gwN"/>
+                                        </connections>
+                                    </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Write review (optional)..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uU2-dj-rzm">
+                                        <rect key="frame" x="4" y="29" width="288" height="143"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.62870796319796951" green="0.62870796319796951" blue="0.62870796319796951" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="dislikeButton" destination="UJu-ib-nU9" id="tMZ-LE-uNw"/>
+                        <outlet property="likeButton" destination="iCh-se-Vdz" id="0BW-9V-BRg"/>
+                        <outlet property="textView" destination="uU2-dj-rzm" id="utF-mH-kNb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mfa-El-hv0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2968.8000000000002" y="1025.9370314842579"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="F7Z-IY-Qan">
             <objects>
@@ -513,6 +588,6 @@
         <image name="Checkbox empty" width="26" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="j3N-h8-K2i"/>
+        <segue reference="JBL-ek-s4F"/>
     </inferredMetricsTieBreakers>
 </document>

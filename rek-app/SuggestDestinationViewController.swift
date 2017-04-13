@@ -71,9 +71,7 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
     
     private func getNote() -> String? {
         let note = suggestionNoteInput.text
-        if note == nil {
-            return nil
-        } else if note!.isEmpty {
+        if note == nil || note!.isEmpty{
             return nil
         } else {
             return note
