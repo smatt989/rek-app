@@ -194,5 +194,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     }
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == "\n" {
+            textField.resignFirstResponder()
+            return false
+        }
+        return true
+    }
 
 }

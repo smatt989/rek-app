@@ -50,6 +50,7 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
     @IBOutlet weak var reviewRatingLabel: UILabel!
     @IBOutlet weak var reviewCountLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var thanksLabel: UILabel!
     
     @IBOutlet weak var reviewTable: UITableView!
     
@@ -125,7 +126,8 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         destinationName.text = destination?.name
         destinationAddress.text = destination?.address
         mapview.addAnnotation(destination!)
-        mapview.region = MKCoordinateRegion(center: destination!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        mapview.region = MKCoordinateRegion(center: destination!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.003, longitudeDelta: 0.003))
+        thanksLabel.isHidden = true
     }
     
     private func setupRichView() {
@@ -145,6 +147,16 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
                 weakself?.suggestionsOnToggle = false
             }
             weakself?.reviewTableToggle.selectedSegmentIndex = toSelect
+            
+            if weakself?.richDestination?.thanksReceived.count ?? 0 > 0 {
+                let thankCount = weakself!.richDestination!.thanksReceived.count
+                var people = "people"
+                if thankCount == 1 {
+                    people = "person"
+                }
+                weakself?.thanksLabel.text = "\(thankCount) \(people) thanked you!"
+                weakself?.thanksLabel.isHidden = false
+            }
         }
     }
     

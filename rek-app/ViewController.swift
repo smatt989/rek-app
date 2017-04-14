@@ -137,7 +137,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let searchBar = resultSearchController!.searchBar
         searchBar.sizeToFit()
-        searchBar.placeholder = "Search for places"
+        searchBar.placeholder = "Search for restaurants, bars, etc..."
         navigationItem.titleView = resultSearchController?.searchBar
         
         resultSearchController?.hidesNavigationBarDuringPresentation = false

@@ -34,6 +34,8 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
                 weakself?.destinationNameLabel.text = weakself?.destination?.name
             }
         }
+        setupSuggestionNoteInput()
+        setupSearchBox()
     }
     
     private var placeholderText = "Add a note visible only to the people you select..."
@@ -42,6 +44,7 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
         suggestionNoteInput.delegate = self
         suggestionNoteInput.text = placeholderText
         suggestionNoteInput.textColor = UIColor.lightGray
+        suggestionNoteInput.returnKeyType = .done
         emptyNote = true
     }
     
@@ -222,8 +225,6 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
         tableView.delegate = self
         tableView.dataSource = self
         setup()
-        setupSuggestionNoteInput()
-        setupSearchBox()
     }
 
     override func didReceiveMemoryWarning() {
@@ -234,6 +235,14 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
             textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == "\n" {
+            textField.resignFirstResponder()
             return false
         }
         return true
