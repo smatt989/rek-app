@@ -321,6 +321,32 @@ extension ReviewRequest {
     }
 }
 
+extension ThankRequest {
+    
+    struct Urls {
+        static let createThank = domain+"/recommendations/thank"
+    }
+    
+    static func postThankRequest(_ thankRequest: ThankRequest, success: @escaping (Thank) -> Void, failure: @escaping (Error) -> Void) {
+        var request = URLRequest(url: URL(string: Urls.createThank)!)
+        request.httpMethod = "POST"
+        request.authenticate()
+        request.jsonRequest()
+        request.httpBody = try! JSONSerialization.data(withJSONObject: thankRequest.toJsonDictionary(), options: [])
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, err in
+            if data != nil {
+                let thank = Thank.parseThank(data: data!)
+                success(thank!)
+            } else if err != nil {
+                failure(err!)
+            } else {
+                print("all ruined")
+            }
+        }.resume()
+    }
+}
+
 extension URLRequest {
     mutating func jsonRequest() {
         self.addValue("application/json",forHTTPHeaderField: "Content-Type")

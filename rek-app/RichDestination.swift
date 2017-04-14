@@ -15,6 +15,8 @@ class RichDestination: NSObject {
     var inboundRecommendations: [Recommendation]
     var reviews: [Review]
     var ownReview: Review?
+    var thanksSent: [Thank]
+    var thanksReceived: [Thank]
     
     var reviewRating: Double? {
         get {
@@ -31,11 +33,13 @@ class RichDestination: NSObject {
         }
     }
     
-    init(destination: Destination, inboundRecommendations: [Recommendation], reviews: [Review], ownReview: Review?) {
+    init(destination: Destination, inboundRecommendations: [Recommendation], reviews: [Review], ownReview: Review?, thanksSent: [Thank], thanksReceived: [Thank]) {
         self.destination = destination
         self.inboundRecommendations = inboundRecommendations
         self.reviews = reviews
         self.ownReview = ownReview
+        self.thanksSent = thanksSent
+        self.thanksReceived = thanksReceived
         super.init()
     }
     

@@ -36,7 +36,7 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
         }
     }
     
-    private var placeholderText = "Add a note..."
+    private var placeholderText = "Add a note visible only to the people you select..."
     
     private func setupSuggestionNoteInput() {
         suggestionNoteInput.delegate = self
@@ -71,7 +71,7 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
     
     private func getNote() -> String? {
         let note = suggestionNoteInput.text
-        if note == nil || note!.isEmpty{
+        if note == nil || note!.isEmpty || emptyNote {
             return nil
         } else {
             return note
@@ -178,6 +178,10 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
         }
         
         cell.added = addedUsers.contains{
+            $0.id == cell.user!.id
+        }
+        
+        cell.toBeShared = toShareWith.contains{
             $0.id == cell.user!.id
         }
         

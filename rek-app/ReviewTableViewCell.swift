@@ -13,6 +13,14 @@ class ReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var reviewTextView: UITextView!
     
+    @IBOutlet weak var thanksButton: UIButton!
+    @IBOutlet weak var thankedLabel: UILabel!
+    
+    @IBAction func thanksButtonTap(_ sender: UIButton) {
+        thanksButtonTap?()
+    }
+    
+    var thanksButtonTap: (() -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()

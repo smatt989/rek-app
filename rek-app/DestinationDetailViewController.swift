@@ -103,8 +103,7 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         if let id = destination?.id {
             let review = ReviewRequest(destinationId: id, positiveRating: positiveRating, note: note)
             ReviewRequest.postReviewRequest(review, success: {[weak weakself = self] r in
-                weakself?.richDestination?.ownReview = r
-                weakself?.setupRichView()
+                weakself?.loadSavedDestination()
             }, failure: { err in print("crap an error: \(err)")})
         }
     }
@@ -224,14 +223,33 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         return 0
     }
     
+    func thankForRecommendation(receiverUserId: Int) {
+        let request = ThankRequest(receiverUserId: receiverUserId, destinationId: richDestination!.destination.id!)
+        ThankRequest.postThankRequest(request, success: { [weak weakself = self] _ in
+            weakself?.loadSavedDestination()
+            }, failure: { error in
+                print(error)
+        })
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.Cells.reviewCell, for: indexPath) as! ReviewTableViewCell
         
         cell.userNameLabel.textColor = UIColor.black
+        cell.thankedLabel.isHidden = true
+        cell.thanksButton.isHidden = true
         if suggestionsOnToggle {
             let recommendation = richDestination!.inboundRecommendations[indexPath.row]
             cell.userNameLabel.text = recommendation.sender.username
             cell.reviewTextView.text = recommendation.note
+            if richDestination!.thanksSent.contains(where: {$0.receiverUserId == recommendation.sender.id}) {
+                cell.thankedLabel.isHidden = false
+            } else {
+                cell.thanksButton.isHidden = false
+                cell.thanksButtonTap = { [weak weakself = self] in
+                    weakself?.thankForRecommendation(receiverUserId: recommendation.sender.id)
+                }
+            }
         } else {
             let review = richDestination!.reviews[indexPath.row]
             var likeText = ""

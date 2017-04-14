@@ -13,10 +13,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var reviewCount = 0
+    var thanksCount = 0
     
     private func setup() {
         usernameLabel.text = appDelegate.authentication.currentUser?.username
         reviewCountLabel.text = String(reviewCount)
+        kudosCountLabel.text = String(thanksCount)
     }
     
     private var searching = false

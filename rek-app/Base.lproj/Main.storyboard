@@ -448,7 +448,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgp-zy-pJA">
-                                                    <rect key="frame" x="8" y="0.0" width="251" height="21"/>
+                                                    <rect key="frame" x="8" y="0.0" width="282" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -461,10 +461,27 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Thanked" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EvY-v6-IPW">
+                                                    <rect key="frame" x="298" y="0.0" width="60" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WCh-Tc-wbB">
+                                                    <rect key="frame" x="301" y="-4" width="55" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Thanks!"/>
+                                                    <connections>
+                                                        <action selector="thanksButtonTap:" destination="ucj-FP-1sd" eventType="touchUpInside" id="eKd-9B-K7x"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="reviewTextView" destination="Guu-rn-gPJ" id="dRb-Of-cGC"/>
+                                            <outlet property="thankedLabel" destination="EvY-v6-IPW" id="VqR-ho-vBM"/>
+                                            <outlet property="thanksButton" destination="WCh-Tc-wbB" id="kIs-5T-bBO"/>
                                             <outlet property="userNameLabel" destination="hgp-zy-pJA" id="Oii-xU-PFE"/>
                                         </connections>
                                     </tableViewCell>

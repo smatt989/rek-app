@@ -36,6 +36,7 @@
 		C95F6E621E9F3DD00089A37D /* FollowUnfollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F6E611E9F3DD00089A37D /* FollowUnfollowTableViewCell.swift */; };
 		C95F6E641E9F41910089A37D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F6E631E9F41910089A37D /* ProfileViewController.swift */; };
 		C95F6E661E9F55EC0089A37D /* MapCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95F6E651E9F55EC0089A37D /* MapCalloutView.swift */; };
+		C9662D6C1EA0113D00AA60E1 /* Thank.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9662D6B1EA0113D00AA60E1 /* Thank.swift */; };
 		C9C6AE781E921A8C008B73A1 /* UserSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE771E921A8C008B73A1 /* UserSearchTableViewCell.swift */; };
 		C9C6AE7A1E922035008B73A1 /* UserConnectionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE791E922035008B73A1 /* UserConnectionRequest.swift */; };
 		C9C6AE7C1E922C8C008B73A1 /* DestinationShareRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C6AE7B1E922C8C008B73A1 /* DestinationShareRequest.swift */; };
@@ -80,6 +81,8 @@
 		C95F6E611E9F3DD00089A37D /* FollowUnfollowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowUnfollowTableViewCell.swift; sourceTree = "<group>"; };
 		C95F6E631E9F41910089A37D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C95F6E651E9F55EC0089A37D /* MapCalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCalloutView.swift; sourceTree = "<group>"; };
+		C9662D6B1EA0113D00AA60E1 /* Thank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Thank.swift; sourceTree = "<group>"; };
+		C9662D6D1EA018D500AA60E1 /* rek-app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "rek-app.entitlements"; sourceTree = "<group>"; };
 		C9C6AE771E921A8C008B73A1 /* UserSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearchTableViewCell.swift; sourceTree = "<group>"; };
 		C9C6AE791E922035008B73A1 /* UserConnectionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserConnectionRequest.swift; sourceTree = "<group>"; };
 		C9C6AE7B1E922C8C008B73A1 /* DestinationShareRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationShareRequest.swift; sourceTree = "<group>"; };
@@ -122,6 +125,7 @@
 		C94219141E8E1B5B0068E50D /* rek-app */ = {
 			isa = PBXGroup;
 			children = (
+				C9662D6D1EA018D500AA60E1 /* rek-app.entitlements */,
 				C95F6E591E9EA99B0089A37D /* Assets.xcassets */,
 				C9C6AE761E921A7A008B73A1 /* Views */,
 				C94219561E8E200D0068E50D /* Storyboards */,
@@ -203,6 +207,7 @@
 				C942195F1E9099A00068E50D /* Review.swift */,
 				C9C6AE7B1E922C8C008B73A1 /* DestinationShareRequest.swift */,
 				C9C6AE7D1E93080B008B73A1 /* RichDestination.swift */,
+				C9662D6B1EA0113D00AA60E1 /* Thank.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -262,8 +267,13 @@
 				TargetAttributes = {
 					C94219111E8E1B5B0068E50D = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 3TPNUJ5HB3;
+						DevelopmentTeam = YA9PU25M2S;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -310,6 +320,7 @@
 				C9C6AE7E1E93080B008B73A1 /* RichDestination.swift in Sources */,
 				C95F6E5C1E9EDEF80089A37D /* ReviewViewController.swift in Sources */,
 				C9C6AE881E9373F2008B73A1 /* DestinationSectionTableViewCell.swift in Sources */,
+				C9662D6C1EA0113D00AA60E1 /* Thank.swift in Sources */,
 				C94219621E920F280068E50D /* SuggestDestinationViewController.swift in Sources */,
 				C94219471E8E1CB50068E50D /* SignUpViewController.swift in Sources */,
 				C95F6E641E9F41910089A37D /* ProfileViewController.swift in Sources */,
@@ -479,10 +490,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3TPNUJ5HB3;
+				CODE_SIGN_ENTITLEMENTS = "rek-app/rek-app.entitlements";
+				DEVELOPMENT_TEAM = YA9PU25M2S;
 				INFOPLIST_FILE = "rek-app/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.slotkin.matthew.hugo.rek-app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rek.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -492,10 +504,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3TPNUJ5HB3;
+				CODE_SIGN_ENTITLEMENTS = "rek-app/rek-app.entitlements";
+				DEVELOPMENT_TEAM = YA9PU25M2S;
 				INFOPLIST_FILE = "rek-app/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.slotkin.matthew.hugo.rek-app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rek.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

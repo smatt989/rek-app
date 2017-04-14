@@ -229,7 +229,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         } else if segue.identifier == Identifiers.Segues.profile {
             if let viewController = segue.destination as? ProfileViewController {
-                viewController.reviewCount = myDestinations.count
+                viewController.reviewCount = myDestinations.count 
+                viewController.thanksCount = myDestinations.reduce(0) { result, d in
+                    result + d.thanksReceived.count
+                }
             }
         }
     }

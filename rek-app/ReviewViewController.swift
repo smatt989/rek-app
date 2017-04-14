@@ -49,7 +49,11 @@ class ReviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
 
     @IBAction func doneButtonTap(_ sender: UIButton) {
         if like != nil {
-            makeReviewFunction?(like!, textView.text)
+            var note: String?
+            if !emptyNote {
+                note = textView.text
+            }
+            makeReviewFunction?(like!, note)
         }
         dismiss(animated: true, completion: nil)
     }
@@ -60,7 +64,7 @@ class ReviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     }
     
     private var emptyNote = true
-    private var placeholderText = "Add a review (optional)..."
+    private var placeholderText = "Add a review visible to anyone who follows you..."
     
     private func setupReviewNoteInput() {
         textView.delegate = self

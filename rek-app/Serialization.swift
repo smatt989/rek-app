@@ -123,7 +123,9 @@ extension RichDestination {
         let inboundRecommendations = (dict["inboundRecommendations"] as! [[String: Any]]).map{Recommendation.parseRecommendationDict(dict: $0)}
         let reviews = (dict["reviews"] as! [[String: Any]]).map{Review.parseReviewDict(dict: $0)}
         let ownReview = (dict["ownReview"] as? [String: Any]).map{Review.parseReviewDict(dict: $0)}
-        return RichDestination(destination: destination, inboundRecommendations: inboundRecommendations, reviews: reviews, ownReview: ownReview)
+        let thanksSent = (dict["thanksSent"] as! [[String: Any]]).map{Thank.parseThankDict(dict: $0)}
+        let thanksReceived = (dict["thanksReceived"] as! [[String: Any]]).map{Thank.parseThankDict(dict: $0)}
+        return RichDestination(destination: destination, inboundRecommendations: inboundRecommendations, reviews: reviews, ownReview: ownReview, thanksSent: thanksSent, thanksReceived: thanksReceived)
     }
 }
 
@@ -175,4 +177,39 @@ extension ReviewRequest {
         return dict
     }
     
+}
+
+extension Thank {
+    
+    static func parseManyThanks(data: Data) -> [Thank] {
+        let json = try? JSONSerialization.jsonObject(with: data, options: [])
+        
+        if let array = json as? [[String: Any]] {
+            return array.map{parseThankDict(dict: $0)}
+        }
+        return [Thank]()
+    }
+    
+    static func parseThank(data: Data) -> Thank? {
+        if let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String: Any] {
+            return parseThankDict(dict: json)
+        }
+        return nil
+    }
+    
+    static func parseThankDict(dict: [String: Any]) -> Thank {
+        let senderUserId = dict["senderUserId"] as! Int
+        let receiverUserId = dict["receiverUserId"] as! Int
+        let destinationId = dict["destinationId"] as! Int
+        return Thank(senderUserId: senderUserId, receiverUserId: receiverUserId, destinationId: destinationId)
+    }
+}
+
+extension ThankRequest {
+    func toJsonDictionary() -> [String: Any] {
+        var dict: [String: Any] = [:]
+        dict["receiverUserId"] = receiverUserId
+        dict["destinationId"] = destinationId
+        return dict
+    }
 }
