@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         
         // Print it to console
-        print("APNs device token: \(deviceTokenString)")
+        // print("APNs device token: \(deviceTokenString)")
         
         User.saveDeviceToken(deviceTokenString, success: {
             

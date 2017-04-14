@@ -29,7 +29,6 @@ class ReviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     var reviewText: String? {
         didSet {
             emptyNote = reviewText == nil || reviewText!.isEmpty
-            print("empty note: \(emptyNote)")
         }
     }
     

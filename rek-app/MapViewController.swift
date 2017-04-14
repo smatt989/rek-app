@@ -73,10 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Identifiers.Segues.mapToDetail {
-            print("trying here")
             if let viewController = segue.destination as? DestinationDetailViewController {
-                print("assigning here")
-                print("is defined?: \(selectedDestination != nil)")
                 viewController.richDestination = selectedDestination
                 viewController.destination = selectedDestination?.destination
             }

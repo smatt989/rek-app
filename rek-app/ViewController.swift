@@ -82,9 +82,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private func fetchDestinations(location: CLLocation) -> Void {
         RichDestination.fetchDestinations(location: location.coordinate) { [weak weakself = self] dests in
             weakself?.destinations = dests
-//            if !weakself!.interacted {
-//                //weakself?.openMenuOnInt()
-//            }
+            if weakself != nil {
+                if !weakself!.interacted {
+                    weakself?.openMenuOnInit()
+                }
+            }
         }
     }
 
@@ -92,6 +94,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        setupHiddenHeaders()
         setupLocationFinder()
         setupLocationSearch()
         // Do any additional setup after loading the view, typically from a nib.
@@ -155,13 +158,62 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return nil
     }
     
+    private var hidden = [Bool]()
+    
+    @objc private func tapHeaderCallback(sender:UITapGestureRecognizer) {
+        let section = sender.view!.tag
+        tapSectionFunction(section: section)
+    }
+    
+    private func tapSectionFunction(section: Int) {
+        interacted = true
+        let indexPaths = (0..<lookupArrayBySection(section).count).map { i in return IndexPath(item: i, section: section)  }
+        
+        hidden[section] = !hidden[section]
+        
+        tableView?.beginUpdates()
+        
+        if hidden[section] {
+            tableView?.deleteRows(at: indexPaths, with: .fade)
+        } else {
+            tableView?.insertRows(at: indexPaths, with: .fade)
+        }
+        
+        tableView?.endUpdates()
+    }
+    
+    private func openMenuOnInit() {
+        var searching = true
+        var section = 0
+        
+        while searching && section < sectionCount {
+            if lookupArrayBySection(section).count > 0 {
+                DispatchQueue.main.async{ [weak weakself = self] in
+                    weakself?.tapSectionFunction(section: section)
+                }
+                searching = false
+            } else {
+                section = section + 1
+            }
+        }
+    }
+    
+    private func setupHiddenHeaders() {
+        (0..<sectionCount).forEach{ _ in
+            hidden.append(true)
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionCount
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return lookupArrayBySection(section).count
+        if hidden[section] {
+            return 0
+        } else {
+            return lookupArrayBySection(section).count
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -183,6 +235,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         headerView.backgroundColor = UIColor.black
         headerView.section = section
         headerView.mapButton.section = section
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapHeaderCallback))
+        headerView.contentView.isUserInteractionEnabled = true
+        headerView.contentView.addGestureRecognizer(tap)
+        headerView.contentView.tag = section
         
         headerView.mapButton.isHidden = lookupArrayBySection(section).count == 0
         

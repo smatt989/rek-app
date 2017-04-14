@@ -17,11 +17,9 @@ class FollowUnfollowTableViewCell: UITableViewCell {
             DispatchQueue.main.async { [weak weakself = self] in
                 weakself?.usernameLabel.text = weakself?.user?.username
                 if weakself!.following {
-                    print("showing unfollow")
                     weakself?.followButton.isHidden = true
                     weakself?.unfollowButton.isHidden = false
                 } else {
-                    print("showing follow")
                     weakself?.followButton.isHidden = false
                     weakself?.unfollowButton.isHidden = true
                 }
