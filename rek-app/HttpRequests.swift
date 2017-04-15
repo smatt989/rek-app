@@ -34,6 +34,7 @@ extension User {
         let cleanQuery = query.replacingOccurrences(of: " ", with: "_")
         var request = URLRequest(url: URL(string: Urls.usersSearch+"?query="+cleanQuery)!)
         request.httpMethod = "POST"
+        request.authenticate()
         let session = URLSession.shared
         session.dataTask(with: request) {data, response, err in
             if let d = data {

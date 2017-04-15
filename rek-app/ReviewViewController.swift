@@ -88,6 +88,11 @@ class ReviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         }
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        reviewText = text
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(white: 0.2, alpha: 0.8)
