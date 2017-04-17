@@ -40,6 +40,6 @@ struct Identifiers {
     }
 }
 
-//let domain = "http://localhost:8080"
-let domain = "http://rekkiapp-env.us-east-1.elasticbeanstalk.com"
+let domain = "http://localhost:8080"
+//let domain = "http://rekkiapp-env.us-east-1.elasticbeanstalk.com"
     

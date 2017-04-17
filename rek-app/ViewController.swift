@@ -97,14 +97,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         setupHiddenHeaders()
         setupLocationFinder()
         setupLocationSearch()
+        
+        tableView.addSubview(refreshControl)
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        
+        return refreshControl
+    }()
+    
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        setupLocationFinder()
+        refreshControl.endRefreshing()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if currentLocation != nil {
-            fetchDestinations(location: CLLocation(latitude: currentLocation!.latitude, longitude: currentLocation!.longitude))
-        }
+        setupLocationFinder()
     }
     
     private func redrawTable()  {

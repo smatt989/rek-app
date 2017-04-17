@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ma1-hS-O0c">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ma1-hS-O0c">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
         <scene sceneID="txD-hs-qdu">
             <objects>
-                <viewController id="o5x-4S-xIy" customClass="LoginViewController" customModule="Spool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="o5x-4S-xIy" customClass="LoginViewController" customModule="rek_app" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iYc-t3-Vdg"/>
                         <viewControllerLayoutGuide type="bottom" id="y1y-F9-AWy"/>
@@ -101,7 +101,7 @@
         <!--Sign Up View Controller-->
         <scene sceneID="qq9-ch-kIb">
             <objects>
-                <viewController id="bRE-u0-ZVc" customClass="SignUpViewController" customModule="Spool" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bRE-u0-ZVc" customClass="SignUpViewController" customModule="rek_app" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WNt-uh-D2n"/>
                         <viewControllerLayoutGuide type="bottom" id="XQP-Qj-awp"/>
@@ -111,7 +111,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FqE-Jk-LaJ">
-                                <rect key="frame" x="25" y="166" width="324" height="170"/>
+                                <rect key="frame" x="25" y="166" width="324" height="230"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="W7R-C0-gir">
@@ -165,19 +165,38 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="BIL-Pi-bdp">
+                                        <rect key="frame" x="0.0" y="180" width="324" height="50"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Re-enter" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="71s-GH-Lfc">
+                                                <rect key="frame" x="0.0" y="0.0" width="114" height="50"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="50" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="yMa-dk-TP7">
+                                                <rect key="frame" x="124" y="0.0" width="200" height="50"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="IDI-AR-Zgo" firstAttribute="height" secondItem="1tb-6l-0RG" secondAttribute="height" id="34U-Kd-uf4"/>
                                     <constraint firstItem="1tb-6l-0RG" firstAttribute="height" secondItem="O31-a5-yC1" secondAttribute="height" id="3u8-VX-p26"/>
+                                    <constraint firstItem="yMa-dk-TP7" firstAttribute="height" secondItem="O31-a5-yC1" secondAttribute="height" id="MeI-Ac-nAF"/>
                                     <constraint firstItem="IDI-AR-Zgo" firstAttribute="width" secondItem="1tb-6l-0RG" secondAttribute="width" id="X66-2J-pU4"/>
+                                    <constraint firstItem="yMa-dk-TP7" firstAttribute="width" secondItem="O31-a5-yC1" secondAttribute="width" id="gKb-yh-5uK"/>
                                     <constraint firstItem="1tb-6l-0RG" firstAttribute="width" secondItem="O31-a5-yC1" secondAttribute="width" id="u84-oX-mpN"/>
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ta-EQ-iqb">
-                                <rect key="frame" x="92" y="413" width="191" height="48"/>
+                                <rect key="frame" x="85" y="447" width="206" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <state key="normal" title="Create Acount"/>
+                                <state key="normal" title="Create Account"/>
                                 <connections>
                                     <action selector="createAccount:" destination="bRE-u0-ZVc" eventType="touchUpInside" id="ny0-Ka-id2"/>
                                 </connections>
@@ -196,6 +215,7 @@
                     <connections>
                         <outlet property="alertText" destination="ct5-eL-R6g" id="qDy-fT-jeW"/>
                         <outlet property="emailInput" destination="1tb-6l-0RG" id="MWT-jE-wPZ"/>
+                        <outlet property="passwordConfirmInput" destination="yMa-dk-TP7" id="j4C-sO-DVV"/>
                         <outlet property="passwordInput" destination="O31-a5-yC1" id="5dW-8i-N12"/>
                         <outlet property="usernameInput" destination="IDI-AR-Zgo" id="hoa-wr-3xe"/>
                     </connections>
@@ -207,9 +227,9 @@
         <!--TransparentUI Navigation Controller-->
         <scene sceneID="fd0-xJ-B95">
             <objects>
-                <navigationController storyboardIdentifier="Log In Navigation Controller" automaticallyAdjustsScrollViewInsets="NO" id="Ma1-hS-O0c" customClass="TransparentUINavigationController" customModule="Spool" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Log In Navigation Controller" automaticallyAdjustsScrollViewInsets="NO" id="Ma1-hS-O0c" customClass="TransparentUINavigationController" customModule="rek_app" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" misplaced="YES" id="Ldl-gg-xFg">
+                    <navigationBar key="navigationBar" opaque="NO" contentMode="scaleToFill" id="Ldl-gg-xFg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
