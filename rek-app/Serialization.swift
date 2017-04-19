@@ -141,9 +141,9 @@ extension Review {
     static func parseReviewDict(dict: [String: Any]) -> Review {
         let user = User.parseUserDict(dict: dict["user"] as! [String: Any])
         let destinationId = dict["destinationId"] as! Int
-        let positiveRating = dict["positiveRating"] as? Bool
+        let rating = dict["rating"] as? Double
         let note = dict["note"] as? String
-        return Review(user: user, destinationId: destinationId, positiveRating: positiveRating, note: note)
+        return Review(user: user, destinationId: destinationId, rating: rating, note: note)
     }
 }
 
@@ -170,7 +170,7 @@ extension ReviewRequest {
     func toJsonDictionary() -> [String: Any] {
         var dict: [String: Any] = [:]
         dict["destinationId"] = destinationId
-        dict["positiveRating"] = positiveRating
+        dict["rating"] = rating
         if note != nil {
             dict["note"] = note
         }

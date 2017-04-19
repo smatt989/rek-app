@@ -13,6 +13,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     var annotations = [RichDestination]()
     
+    var specificUserReviews: User?
+    
     @IBOutlet weak var mapview: MKMapView!
     
     var selectedDestination: RichDestination?
@@ -22,33 +24,51 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             //return nil so map view draws "blue dot" for standard user location
             return nil
         }
-        let reuseId = "pin"
-        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
-        if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-   
+        
+        var view: MKAnnotationView! = mapView.dequeueReusableAnnotationView(withIdentifier: "marker")
+        if view == nil {
+            view = MKAnnotationView(annotation: annotation, reuseIdentifier: "marker")
+        } else {
+            view.annotation = annotation
         }
-        pinView!.canShowCallout = true
+        
+        let destination = annotation as! RichDestination
+        
+        var rating: Double?
+        if specificUserReviews != nil {
+            rating = destination.ratingFor(specificUserReviews!.id)
+        } else {
+            rating = destination.reviewRating
+        }
+        
+        
+        view.image = pinImageGivenRating(rating ?? -1).imageResize(sizeChange: CGSize(width: 37.0, height: 38.0))
+        view.centerOffset = CGPoint(x: 0, y: view.image!.size.height / -2.0)
+        
+        view.canShowCallout = true
         let button = UIButton(type: .detailDisclosure)
-        pinView!.rightCalloutAccessoryView = button
+        view.rightCalloutAccessoryView = button
 
         
-        return pinView
+        return view
     }
     
-//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        
-//        let calloutView = MapCalloutView()
-//        calloutView.richDestination = view.annotation as! RichDestination
-//        calloutView.setup(view: view)
-//        view.insertSubview(calloutView, at: 10)
-//    }
-//    
-//    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-//        for v in view.subviews {
-//            v.removeFromSuperview()
-//        }
-//    }
+    private func pinImageGivenRating(_ rating: Double) -> UIImage{
+        switch rating {
+        case _ where rating > 4.5:
+            return #imageLiteral(resourceName: "marker-rating-5")
+        case _ where rating > 3.5:
+            return #imageLiteral(resourceName: "marker-rating-4")
+        case _ where rating > 2.5:
+            return #imageLiteral(resourceName: "marker-rating-3")
+        case _ where rating > 1.5:
+            return #imageLiteral(resourceName: "marker-rating-2")
+        case _ where rating > 0.0:
+            return #imageLiteral(resourceName: "marker-rating-1")
+        default:
+            return #imageLiteral(resourceName: "marker-rating-5")
+        }
+    }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         selectedDestination = view.annotation as? RichDestination
@@ -58,8 +78,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapview.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         mapview.addAnnotations(annotations)
-        mapview.showAnnotations(Array(annotations.prefix(10)), animated: true)
+        mapview.showAnnotations(Array(annotations.prefix(7)), animated: true)
         if selectedDestination != nil {
             mapview.selectAnnotation(selectedDestination!, animated: true)
         }
@@ -80,4 +104,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
+}
+
+extension UIImage {
+    
+    func imageResize (sizeChange:CGSize)-> UIImage{
+        
+        let hasAlpha = true
+        let scale: CGFloat = 0.0 // Use scale factor of main screen
+        
+        UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
+        self.draw(in: CGRect(origin: CGPoint.zero, size: sizeChange))
+        
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        return scaledImage!
+    }
+    
 }

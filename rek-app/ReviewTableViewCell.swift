@@ -16,6 +16,8 @@ class ReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var thanksButton: UIButton!
     @IBOutlet weak var thankedLabel: UILabel!
     
+    @IBOutlet weak var ratingDisplay: RatingView!
+    
     @IBAction func thanksButtonTap(_ sender: UIButton) {
         thanksButtonTap?()
     }

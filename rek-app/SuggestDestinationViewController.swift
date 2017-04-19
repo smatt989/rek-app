@@ -83,7 +83,15 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
     
     var searching = false
     
-    private var toShareWith = [User]()
+    private var toShareWith = [User]() {
+        didSet {
+            let addedUserIds = addedUsers.map{$0.id}
+            let notAlreadyAdded = toShareWith.filter{ share in
+                !addedUserIds.contains(share.id)
+            }
+            addedUsers = notAlreadyAdded + addedUsers
+        }
+    }
     
     
     private var addedUsers = [User]() {
@@ -205,13 +213,17 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        if !searching && addedUsers.count == 0{
+            tableView.showBackground(headline: "HMM", informationText1: "You're not following anyone yet.", informationText2: nil, instructionsText: "Start searching in the searchbox above!")
+            return 0
+        } else {
+            tableView.showTable()
+            return 1
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadAddedUsers()
         listenToSearch()
     }
     
@@ -225,6 +237,7 @@ class SuggestDestinationViewController: UIViewController, UITableViewDelegate, U
         tableView.delegate = self
         tableView.dataSource = self
         setup()
+        loadAddedUsers()
     }
 
     override func didReceiveMemoryWarning() {

@@ -10,56 +10,28 @@ import UIKit
 
 class ReviewViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
-    var like: Bool?{
-        didSet {
-            DispatchQueue.main.async { [weak weakself = self] in
-                weakself?.resetLikeButtons()
-                if weakself?.like != nil && weakself!.like! {
-                    weakself?.likeButton.tintColor = UIColor.green
-                    weakself?.dislikeButton.tintColor = UIColor.lightGray
-                } else if weakself?.like != nil && !weakself!.like! {
-                    weakself?.dislikeButton.tintColor = UIColor.red
-                    weakself?.likeButton.tintColor = UIColor.lightGray
-                }
-            }
-        }
-        
-    }
-    
     var reviewText: String? {
         didSet {
             emptyNote = reviewText == nil || reviewText!.isEmpty
         }
     }
     
-    var makeReviewFunction: ((Bool, String?) -> Void)?
+    var rating: Double?
     
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var dislikeButton: UIButton!
+    var makeReviewFunction: ((Double, String?) -> Void)?
+    
+    @IBOutlet weak var ratingButtons: RatingView!
     @IBOutlet weak var textView: UITextView!
 
-    @IBAction func likeButtonTap(_ sender: UIButton) {
-        like = true
-    }
-    
-    @IBAction func dislikeButtonTap(_ sender: UIButton) {
-        like = false
-    }
-
     @IBAction func doneButtonTap(_ sender: UIButton) {
-        if like != nil {
+        if rating != nil {
             var note: String?
             if !emptyNote {
                 note = textView.text
             }
-            makeReviewFunction?(like!, note)
+            makeReviewFunction?(rating!, note)
         }
         dismiss(animated: true, completion: nil)
-    }
-
-    private func resetLikeButtons() {
-        likeButton.tintColor = UIColor.blue
-        dislikeButton.tintColor = UIColor.blue
     }
     
     private var emptyNote = true
@@ -89,7 +61,7 @@ class ReviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        reviewText = text
+        reviewText = textView.text
         return true
     }
     
@@ -97,6 +69,10 @@ class ReviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         super.viewDidLoad()
         view.backgroundColor = UIColor(white: 0.2, alpha: 0.8)
         setupReviewNoteInput()
+        ratingButtons.rating = rating
+        ratingButtons.onUserTap = { [weak weakself = self] rating in
+            weakself?.rating = rating
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -105,15 +81,5 @@ class ReviewViewController: UIViewController, UITextFieldDelegate, UITextViewDel
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

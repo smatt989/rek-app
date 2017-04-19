@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SectionHeaderUIButton: UIButton {
+class SectionHeaderUIButton: RoundedUIButton {
 
     var section = 0
     /*

@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    var currentLocation: CLLocationCoordinate2D?
     
     var reviewCount = 0
     var thanksCount = 0
@@ -21,7 +24,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         kudosCountLabel.text = String(thanksCount)
     }
     
-    private var searching = false
+    private var searching = false {
+        didSet {
+            if !searching {
+                loadUsers()
+            }
+        }
+    }
     
     private var restingTableUsers = [User]() {
         didSet {
@@ -138,7 +147,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         if searching {
             return searchedUsers.count
         } else {
@@ -147,8 +155,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        if !searching && restingTableUsers.count == 0{
+            tableView.showBackground(headline: "SO CLOSE!", informationText1: "You're not following anyone yet.", informationText2: nil, instructionsText: "Start searching in the searchbox above!")
+            return 0
+        } else {
+            tableView.showTable()
+            return 1
+        }
     }
     
     @IBOutlet weak var usernameLabel: UILabel!
@@ -175,6 +188,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setup()
+        loadUsers()
+    }
+    
+    private func loadUsers() {
         loadAddedUsers()
         loadAwaitingUsers()
     }
@@ -200,6 +217,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             return false
         }
         return true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Identifiers.Segues.userPlaces {
+            if let viewController = segue.destination as? MapViewController, let cell = sender as? FollowUnfollowTableViewCell {
+                RichDestination.fetchReviewerDestinations(reviewerId: cell.user!.id, location: currentLocation!) { dests in
+                    viewController.annotations = dests
+                    viewController.specificUserReviews = cell.user
+                    viewController.navigationItem.title = cell.user?.username
+                }
+            }
+        }
     }
 
 }

@@ -21,15 +21,19 @@ class RichDestination: NSObject {
     var reviewRating: Double? {
         get {
             if reviewCount > 0 {
-                return Double(reviews.filter{$0.positiveRating != nil && $0.positiveRating!}.count) / Double(reviewCount)
+                return Double(reviews.flatMap{$0.rating}.reduce(0, +)) / Double(reviewCount)
             }
             return nil
         }
     }
     
+    func ratingFor(_ userId: Int) -> Double? {
+        return reviews.first{$0.user.id == userId}.flatMap{$0.rating}
+    }
+    
     var reviewCount: Int {
         get {
-            return reviews.filter{$0.positiveRating != nil}.count
+            return reviews.filter{$0.rating != nil}.count
         }
     }
     

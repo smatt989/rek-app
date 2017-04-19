@@ -28,30 +28,16 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
     }
     
     var currentLocation: CLLocationCoordinate2D?
-    
-    private var like: Bool? {
-        didSet {
-            resetLikeButtons()
-            if like != nil && like! {
-                //createAndSendReviewRequest(positiveRating: true, note: nil)
-                likeButton.tintColor = UIColor.green
-                dislikeButton.tintColor = UIColor.lightGray
-            } else if like != nil && !like! {
-                //createAndSendReviewRequest(positiveRating: false, note: nil)
-                dislikeButton.tintColor = UIColor.red
-                likeButton.tintColor = UIColor.lightGray
-            }
-        }
-    }
 
     @IBOutlet weak var destinationName: UILabel!
     @IBOutlet weak var destinationAddress: UILabel!
     @IBOutlet weak var reviewView: UIView!
-    @IBOutlet weak var reviewRatingLabel: UILabel!
+    @IBOutlet weak var reviewRating: RatingView!
     @IBOutlet weak var reviewCountLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var thanksLabel: UILabel!
     
+    @IBOutlet weak var ratingButtons: RatingView!
     @IBOutlet weak var reviewTable: UITableView!
     
     @IBOutlet weak var reviewTableToggle: UISegmentedControl!
@@ -74,24 +60,7 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         }
     }
     
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var dislikeButton: UIButton!
-    
     @IBOutlet weak var mapview: MKMapView!
-    
-    @IBAction func likeButtonTap(_ sender: UIButton) {
-        like = true
-    }
-    
-    @IBAction func dislikeButtonTap(_ sender: UIButton) {
-        like = false
-        performSegue(withIdentifier: Identifiers.Segues.positiveReviewPopover, sender: self)
-    }
-    
-    private func resetLikeButtons() {
-        likeButton.tintColor = UIColor.blue
-        dislikeButton.tintColor = UIColor.blue
-    }
     
     private func openInMaps(){
         let coordinate = destination!.coordinate
@@ -100,9 +69,9 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
     }
     
-    private func createAndSendReviewRequest(positiveRating: Bool, note: String?) {
+    private func createAndSendReviewRequest(rating: Double, note: String?) {
         if let id = destination?.id {
-            let review = ReviewRequest(destinationId: id, positiveRating: positiveRating, note: note)
+            let review = ReviewRequest(destinationId: id, rating: rating, note: note)
             ReviewRequest.postReviewRequest(review, success: {[weak weakself = self] r in
                 weakself?.loadSavedDestination()
             }, failure: { err in print("crap an error: \(err)")})
@@ -114,7 +83,22 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         setupView()
         reviewTable.delegate = self
         reviewTable.dataSource = self
-        // Do any additional setup after loading the view.
+        setupRatingButtons()
+    }
+    
+    private func setupRatingButtons() {
+        ratingButtons.onUserTap = { [weak weakself = self] rating in
+            let storyboard = UIStoryboard(name: Identifiers.StoryBoards.mainStoryboard, bundle: nil)
+            let reviewController = storyboard.instantiateViewController(withIdentifier: Identifiers.ViewControllers.reviewController) as! ReviewViewController
+            
+            reviewController.reviewText = weakself?.richDestination?.ownReview?.note
+            reviewController.makeReviewFunction = weakself?.createAndSendReviewRequest
+            reviewController.rating = rating
+            weakself?.present(reviewController, animated: true) {
+                
+            }
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -133,7 +117,7 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
     private func setupRichView() {
         DispatchQueue.main.async { [weak weakself = self] in
             weakself?.setupRatingView()
-            weakself?.like = weakself?.richDestination?.ownReview?.positiveRating
+            weakself?.ratingButtons.rating = weakself?.richDestination?.ownReview?.rating.map{$0}
             weakself?.setupDistanceLabel()
             weakself?.redrawTable()
             weakself?.reviewTableToggle.setTitle("Recommendations (\(weakself!.richDestination!.inboundRecommendations.count))", forSegmentAt: 0)
@@ -164,7 +148,8 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         if richDestination != nil {
             if richDestination!.reviewCount > 0 {
                 reviewCountLabel.text = "\(richDestination!.reviewCount) reviews"
-                reviewRatingLabel.text = "\(Int(richDestination!.reviewRating! * 100))%"
+                reviewRating.interactable = false
+                reviewRating.rating = richDestination?.reviewRating
                 reviewView.isHidden = false
             } else {
                 reviewView.isHidden = true
@@ -199,12 +184,6 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
             if let viewController = segue.destination as? SuggestDestinationViewController {
                 viewController.destination = destination
             }
-        } else if segue.identifier == Identifiers.Segues.positiveReviewPopover {
-            if let viewController = segue.destination as? ReviewViewController {
-                viewController.like = like
-                viewController.reviewText = richDestination?.ownReview?.note
-                viewController.makeReviewFunction = createAndSendReviewRequest
-            }
         } else if segue.identifier == Identifiers.Segues.detailsToMap {
             if let viewController = segue.destination as? MapViewController {
                 viewController.annotations = [richDestination!]
@@ -221,7 +200,16 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if suggestionsOnToggle && richDestination?.inboundRecommendations.count ?? 0 == 0 {
+            tableView.showBackground(headline: "OH WELL", informationText1: "No recommendations for you here yet", informationText2: nil, instructionsText: nil)
+            return 0
+        } else if !suggestionsOnToggle && richDestination?.reviews.count ?? 0 == 0 {
+            tableView.showBackground(headline: "FIRST!", informationText1: "No one you follow has left any reviews yet.", informationText2: nil, instructionsText: "Tap a rating to give the first review!")
+            return 0
+        } else {
+            tableView.showTable()
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -250,6 +238,7 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         cell.userNameLabel.textColor = UIColor.black
         cell.thankedLabel.isHidden = true
         cell.thanksButton.isHidden = true
+        cell.ratingDisplay.isHidden = true
         if suggestionsOnToggle {
             let recommendation = richDestination!.inboundRecommendations[indexPath.row]
             cell.userNameLabel.text = recommendation.sender.username
@@ -264,16 +253,12 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
             }
         } else {
             let review = richDestination!.reviews[indexPath.row]
-            var likeText = ""
-            if review.positiveRating != nil && review.positiveRating! {
-                likeText = "(like)"
-                cell.userNameLabel.textColor = UIColor.green
-            }
-            if review.positiveRating != nil && !review.positiveRating! {
-                likeText = "(dislike)"
-                cell.userNameLabel.textColor = UIColor.red
-            }
-            cell.userNameLabel.text = "\(review.user.username) \(likeText)"
+
+            cell.ratingDisplay.interactable = false
+            cell.ratingDisplay.rating = review.rating!
+            cell.ratingDisplay.isHidden = false
+            
+            cell.userNameLabel.text = review.user.username
             
             
             cell.reviewTextView.text = review.note

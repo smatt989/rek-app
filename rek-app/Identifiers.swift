@@ -17,6 +17,7 @@ struct Identifiers {
         static let reviewCell = "Review Cell"
         static let destinationSectionCell = "destination section header cell"
         static let followUnfollowTableCell = "follow unfollow cell"
+        static let emptyRecommendationsCell = "empty recommendations"
     }
     
     struct StoryBoards {
@@ -30,16 +31,17 @@ struct Identifiers {
         static let mapview = "mapview segue"
         static let mapToDetail = "Map Annotation To Detail"
         static let reviewPopover = "review popover segue"
-        static let positiveReviewPopover="like review segue"
         static let profile = "profile segue"
         static let detailsToMap = "details to map segue"
+        static let userPlaces = "user places segue"
     }
     
     struct ViewControllers {
         static let locationSearchTable = "LocationSearchTable"
+        static let reviewController = "review view controller"
     }
 }
 
-let domain = "http://localhost:8080"
-//let domain = "http://rekkiapp-env.us-east-1.elasticbeanstalk.com"
+//let domain = "http://localhost:8080"
+let domain = "http://rekkiapp-env.us-east-1.elasticbeanstalk.com"
     

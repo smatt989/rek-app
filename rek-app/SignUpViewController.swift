@@ -37,8 +37,24 @@ class SignUpViewController: UIFormViewController {
     }
     
     private func validSignup(userCreate: UserCreate, confirmPassword: String) -> Bool {
-        return userCreate.username.characters.count > 2 && userCreate.email.characters.count > 5 && userCreate.password.characters.count > 5 &&
-            userCreate.password == confirmPassword
+        return validUserName(userCreate.username) && validEmail(userCreate.email) && validPassword(userCreate.password) &&
+            validPasswordMatch(confirmPassword, password: userCreate.password)
+    }
+    
+    private func validUserName(_ name: String) -> Bool {
+        return name.characters.count > 2
+    }
+    
+    private func validPassword(_ password: String) -> Bool {
+        return password.characters.count > 5
+    }
+    
+    private func validPasswordMatch(_ passwordMatch: String, password: String) -> Bool {
+        return passwordMatch == password
+    }
+    
+    private func validEmail(_ email: String) -> Bool {
+        return email.characters.count > 5 && email.contains("@") && email.contains(".")
     }
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -53,8 +69,9 @@ class SignUpViewController: UIFormViewController {
         cleanFormWithAlert(alert: error.localizedDescription)
     }
     
-    private func cleanFormWithAlert(alert: String) {
+    private func cleanFormWithAlert(alert: String?) {
         alertText.text = alert
+        alertText.isHidden = alert == nil
         usernameInput.text = ""
         emailInput.text = ""
         passwordInput.text = ""
@@ -63,7 +80,7 @@ class SignUpViewController: UIFormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cleanFormWithAlert(alert: "")
+        cleanFormWithAlert(alert: nil)
     }
     
     

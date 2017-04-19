@@ -29,7 +29,7 @@ class DestinationTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var sharedByLabel: UILabel!
-    @IBOutlet weak var reviewRatingLabel: UILabel!
+    @IBOutlet weak var reviewRating: RatingView!
     @IBOutlet weak var reviewCountLabel: UILabel!
     @IBOutlet weak var reviewView: UIView!
     @IBOutlet weak var distanceAwayLabel: UILabel!
@@ -79,7 +79,8 @@ class DestinationTableViewCell: UITableViewCell {
         DispatchQueue.main.async { [weak weakself = self] in
             if weakself!.reviewed {
                 weakself?.reviewView.isHidden = false
-                weakself?.reviewRatingLabel.text = "\(Int(weakself!.destination!.reviewRating! * 100))%"
+                weakself?.reviewRating.rating = weakself!.destination!.reviewRating
+                weakself?.reviewRating.interactable = false
                 weakself?.reviewCountLabel.text = "\(weakself!.destination!.reviewCount) reviews"
             } else {
                 weakself?.reviewView.isHidden = true

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RatingView" customModule="rek_app" customModuleProvider="target">
+            <connections>
+                <outlet property="star1" destination="CmZ-AO-6al" id="xyX-WV-roh"/>
+                <outlet property="star2" destination="YFc-4M-h7t" id="EMz-Pm-3wG"/>
+                <outlet property="star3" destination="C8e-hu-Ntc" id="4Tj-p5-Djp"/>
+                <outlet property="star4" destination="Oub-tP-vaf" id="avM-nG-c1Z"/>
+                <outlet property="star5" destination="Q3h-4u-Ngj" id="D91-mu-6FF"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleAspectFit" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="mS0-q4-eet">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="50" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CmZ-AO-6al" userLabel="1 star">
+                            <rect key="frame" x="0.0" y="0.0" width="61.5" height="52"/>
+                            <state key="normal" title="Button" image="star-rating-grey"/>
+                            <connections>
+                                <action selector="star1Tap:" destination="-1" eventType="touchUpInside" id="BFN-zM-2uI"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="50" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YFc-4M-h7t" userLabel="2 star">
+                            <rect key="frame" x="64.5" y="0.0" width="61.5" height="52"/>
+                            <state key="normal" title="Button" image="star-rating-grey"/>
+                            <connections>
+                                <action selector="star2Tap:" destination="-1" eventType="touchUpInside" id="ENR-E2-erD"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="50" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8e-hu-Ntc" userLabel="3 star">
+                            <rect key="frame" x="129" y="0.0" width="62" height="52"/>
+                            <state key="normal" title="Button" image="star-rating-grey"/>
+                            <connections>
+                                <action selector="star3Tap:" destination="-1" eventType="touchUpInside" id="GZt-Kp-bfa"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="50" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oub-tP-vaf" userLabel="4 star">
+                            <rect key="frame" x="194" y="0.0" width="61.5" height="52"/>
+                            <state key="normal" title="Button" image="star-rating-grey"/>
+                            <connections>
+                                <action selector="star4Tap:" destination="-1" eventType="touchUpInside" id="JJ0-Dz-kmv"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="50" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3h-4u-Ngj" userLabel="5 star">
+                            <rect key="frame" x="258.5" y="0.0" width="61.5" height="52"/>
+                            <state key="normal" title="Button" image="star-rating-grey"/>
+                            <connections>
+                                <action selector="star5Tap:" destination="-1" eventType="touchUpInside" id="J7n-9v-Tru"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="mS0-q4-eet" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="4FW-iA-Ehz"/>
+                <constraint firstItem="mS0-q4-eet" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="CLj-dv-RDF"/>
+                <constraint firstItem="mS0-q4-eet" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="KuP-t9-mZ1"/>
+                <constraint firstItem="mS0-q4-eet" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" multiplier="2" id="eXu-yv-EAw"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-106" y="-469"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="star-rating-grey" width="96" height="96"/>
+    </resources>
+</document>

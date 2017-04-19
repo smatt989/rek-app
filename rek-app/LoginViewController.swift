@@ -38,6 +38,19 @@ class LoginViewController: UIFormViewController {
         appDelegate.loginFailure()
     }
     
+    override func viewDidLoad() {
+        if let topBar = self.navigationController?.navigationBar {
+            
+            topBar.setBackgroundImage(UIImage(), for: .default)
+            topBar.shadowImage = UIImage()
+            topBar.barTintColor = UIColor.clear
+            topBar.tintColor = UIColor.white
+            topBar.isTranslucent = true
+            
+            
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
     }

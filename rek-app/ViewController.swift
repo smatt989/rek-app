@@ -15,7 +15,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     private var interacted = false
-    private var sectionCount = 3
+    private var sections = [DestinationTableSection]()
+    private var sectionCount: Int {
+        get {
+            return sections.count
+        }
+    }
     
     private var suggestedDestinations = [RichDestination]()
     private var reviewedDestinations = [RichDestination]()
@@ -29,13 +34,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    private func makeSections() {
+        let section1 = DestinationTableSection(name: "Recommended", section: 0, headlineForMissingItems: headlineGenerator(), informationForMissingItems: "No one has sent you any new recommendations", actionTextForMissingItems: nil, actionForMissingItems: nil, itemsArray: { [weak weakself = self] in
+            return weakself?.suggestedDestinations ?? [RichDestination]()})
+        let section2 = DestinationTableSection(name: "Reviewed", section: 1, headlineForMissingItems: headlineGenerator(), informationForMissingItems: "No reviews available to you at the moment", actionTextForMissingItems: "Tap here to find people to follow", actionForMissingItems: startSearchingUsers, itemsArray: { [weak weakself = self] in
+            return weakself?.reviewedDestinations ?? [RichDestination]()})
+        let section3 = DestinationTableSection(name: "Your Reviews", section: 2, headlineForMissingItems: headlineGenerator(), informationForMissingItems: "You haven't reviewed anything yet", actionTextForMissingItems: "Tap here to start a review", actionForMissingItems: startSearchingPlaces, itemsArray: { [weak weakself = self] in
+            return weakself?.myDestinations ?? [RichDestination]()})
+        sections = [section1, section2, section3]
+    }
+    
     private func lookupArrayBySection(_ int: Int) -> [RichDestination] {
-        switch int {
-        case 0: return suggestedDestinations
-        case 1: return reviewedDestinations
-        case 2: return myDestinations
-        default: return [RichDestination]()
-        }
+        return sections[int].itemsArray()
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -94,8 +104,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        makeSections()
         setupHiddenHeaders()
-        setupLocationFinder()
+        //setupLocationFinder()
         setupLocationSearch()
         
         tableView.addSubview(refreshControl)
@@ -110,12 +121,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }()
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        print("refreshing???")
         setupLocationFinder()
         refreshControl.endRefreshing()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print("appearing???")
         setupLocationFinder()
     }
     
@@ -175,11 +188,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc private func tapHeaderCallback(sender:UITapGestureRecognizer) {
         let section = sender.view!.tag
         tapSectionFunction(section: section)
+        smartAccordionOpen(section: section)
+    }
+    
+    private func smartAccordionOpen(section: Int) {
+        let hv = tableView.rectForHeader(inSection: section)
+        
+        let lastIndex = lookupArrayBySection(section).count - 1
+        let maxScrollPoint = 4
+        let maxOpenPoint = tableView.frame.height - CGFloat(maxScrollPoint) * tableView.rowHeight
+        
+        if !hidden[section] && hv.maxY > maxOpenPoint {
+            let bottomItem = min(lastIndex, maxScrollPoint)
+            var offset = 0
+            if lastIndex >= bottomItem {
+                offset = 25
+            }
+            tableView.setContentOffset(CGPoint(x: tableView.contentOffset.x, y: tableView.contentOffset.y + CGFloat(tableView.rowHeight * CGFloat(bottomItem) + CGFloat(offset))) , animated: true)
+        }
     }
     
     private func tapSectionFunction(section: Int) {
         interacted = true
-        let indexPaths = (0..<lookupArrayBySection(section).count).map { i in return IndexPath(item: i, section: section)  }
+        var indexPaths = (0..<lookupArrayBySection(section).count).map { i in return IndexPath(item: i, section: section)  }
+        
+        if indexPaths.count == 0 {
+            indexPaths = [IndexPath(item: 0, section: section)]
+        }
         
         hidden[section] = !hidden[section]
         
@@ -196,16 +231,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     private func openMenuOnInit() {
         var searching = true
-        var section = 0
-        
-        while searching && section < sectionCount {
-            if lookupArrayBySection(section).count > 0 {
-                DispatchQueue.main.async{ [weak weakself = self] in
-                    weakself?.tapSectionFunction(section: section)
+
+        sections.forEach{ [weak weakself = self] section in
+            if weakself != nil {
+                if searching || weakself!.lookupArrayBySection(section.section).count == 0 {
+                    DispatchQueue.main.async{ [weak weakself = self] in
+                        if weakself != nil {
+                            weakself!.tapSectionFunction(section: section.section)
+                        }
+                    }
                 }
-                searching = false
-            } else {
-                section = section + 1
+                if weakself!.lookupArrayBySection(section.section).count > 0 && searching {
+                    searching = false
+                }
             }
         }
     }
@@ -224,7 +262,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if hidden[section] {
             return 0
         } else {
-            return lookupArrayBySection(section).count
+            let elementsToShow = lookupArrayBySection(section).count
+            if elementsToShow > 0 {
+                return elementsToShow
+            } else {
+                return 1
+            }
         }
     }
     
@@ -232,17 +275,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return drawTableViewHeader(section: section).contentView
     }
     
+    private func headerTitleBySection(_ section: Int) -> String {
+        return sections[section].name
+    }
+    
     private func drawTableViewHeader(section: Int) -> DestinationSectionTableViewCell {
         let headerView = tableView.dequeueReusableCell(withIdentifier: Identifiers.Cells.destinationSectionCell) as! DestinationSectionTableViewCell
         
-        var headerTitle: String?
-        
-        switch section{
-        case 0: headerTitle = "Recommended"
-        case 1: headerTitle = "Reviewed"
-        case 2: headerTitle = "Your Reviews"
-        default: headerTitle = nil
-        }
+        let headerTitle = headerTitleBySection(section)
         
         headerView.backgroundColor = UIColor.black
         headerView.section = section
@@ -255,8 +295,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         headerView.mapButton.isHidden = lookupArrayBySection(section).count == 0
         
-        headerView.headerTitleLabel.text = headerTitle?.uppercased()
-        headerView.headerCountLabel.text = "\(lookupArrayBySection(section).count) Destinations"
+        headerView.headerTitleLabel.text = headerTitle.uppercased()
+        headerView.headerCountLabel.text = "(\(lookupArrayBySection(section).count))"
         
         return headerView
     }
@@ -268,17 +308,55 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.Cells.destinationCell, for: indexPath) as! DestinationTableViewCell
-        
         let lookupArray = lookupArrayBySection(indexPath.section)
         
-        cell.destination = lookupArray[indexPath.row]
-        cell.currentLocation = currentLocation
-        cell.setup()
+        if lookupArray.count > 0 {
         
-        cell.selectionStyle = UITableViewCellSelectionStyle.none
-        
-        return cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.Cells.destinationCell, for: indexPath) as! DestinationTableViewCell
+            
+            cell.destination = lookupArray[indexPath.row]
+            cell.currentLocation = currentLocation
+            cell.setup()
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.Cells.emptyRecommendationsCell, for: indexPath) as! EmptyRecommendationsTableViewCell
+            let section = sections[indexPath.section]
+            cell.setup(headline: section.headlineForMissingItems, information: section.informationForMissingItems, action: section.actionTextForMissingItems)
+            cell.selectionStyle = .none
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if lookupArrayBySection(indexPath.section).count == 0 {
+            sections[indexPath.section].actionForMissingItems?()
+        }
+    }
+    
+    private func startSearchingPlaces() {
+        resultSearchController!.searchBar.becomeFirstResponder()
+    }
+    
+    private func startSearchingUsers() {
+        performSegue(withIdentifier: Identifiers.Segues.profile, sender: nil)
+    }
+    
+    private let headlines = [
+        "DARN!",
+        "RATS!",
+        "DANG!",
+        "SHUCKS!",
+        "POOEY!",
+        "@%#*&!",
+        "DOH!"
+    ]
+    
+    private func headlineGenerator() -> String {
+        let headlineIndex = Int(arc4random_uniform(UInt32(headlines.count)))
+        return headlines[headlineIndex]
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -295,10 +373,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         else if segue.identifier == Identifiers.Segues.mapview {
             if let button = sender as? SectionHeaderUIButton, let viewController = segue.destination as? MapViewController {
                 viewController.annotations = lookupArrayBySection(button.section)
+                viewController.navigationItem.title = headerTitleBySection(button.section)
             }
         } else if segue.identifier == Identifiers.Segues.profile {
             if let viewController = segue.destination as? ProfileViewController {
-                viewController.reviewCount = myDestinations.count 
+                viewController.currentLocation = currentLocation
+                viewController.reviewCount = myDestinations.count
                 viewController.thanksCount = myDestinations.reduce(0) { result, d in
                     result + d.thanksReceived.count
                 }

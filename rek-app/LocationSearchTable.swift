@@ -10,6 +10,10 @@ import UIKit
 import MapKit
 
 class LocationSearchTable: UITableViewController {
+    
+    var searchIndexOut = 0
+    var searchIndexIn = 0
+    
     var matchingItems: [MKMapItem] = []
     var location: CLLocationCoordinate2D?
     
@@ -18,18 +22,24 @@ class LocationSearchTable: UITableViewController {
 
 extension LocationSearchTable: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-            guard let loc = location,
-                let searchBarText = searchController.searchBar.text else { return }
-            let request = MKLocalSearchRequest()
-            request.naturalLanguageQuery = searchBarText
-            request.region = MKCoordinateRegion(center: loc, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+        guard let loc = location, let searchBarText = searchController.searchBar.text else { return }
+        let request = MKLocalSearchRequest()
+        request.naturalLanguageQuery = searchBarText
+        request.region = MKCoordinateRegion(center: loc, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
         let search = MKLocalSearch(request: request)
-            search.start { response, _ in
+        searchIndexOut = searchIndexOut + 1
+        let mySearchIndex = searchIndexOut
+        search.start { response, _ in
+            if mySearchIndex >= self.searchIndexIn {
                 guard let response = response else {
                     return
                 }
+                self.searchIndexIn = mySearchIndex
                 self.matchingItems = response.mapItems
                 self.tableView.reloadData()
+            } else {
+                return
+            }
         }
     }
     

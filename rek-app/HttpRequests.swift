@@ -252,6 +252,7 @@ extension RichDestination {
     
     struct Urls {
         static let loadPersonalizedDestinations = domain + "/destinations/personalized"
+        static let loadDestinationsForReviewer = domain+"/destinations/users/"
     }
     
     static func fetchDestinations(location: CLLocationCoordinate2D, callback: @escaping ([RichDestination]) -> Void) {
@@ -262,12 +263,31 @@ extension RichDestination {
         let session = URLSession.shared
         session.dataTask(with: request) { data, response, err in
             if let d = data {
+                print("FETCHED")
                 let dests = self.parseManyRichDestinations(data: d)
                 callback(dests)
             } else if err != nil {
                 print("BIG PROBLEMO")
             }
             }.resume()
+    }
+    
+    static func fetchReviewerDestinations(reviewerId: Int, location: CLLocationCoordinate2D, callback: @escaping ([RichDestination]) -> Void) {
+        var request = URLRequest(url: URL(string: Urls.loadDestinationsForReviewer+String(reviewerId)+"/personalized")!)
+        request.httpMethod = "GET"
+        request.authenticate()
+        request.jsonRequest()
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, err in
+            if let d = data {
+                let dests = self.parseManyRichDestinations(data: d)
+                callback(dests)
+            } else if err != nil {
+                print(err!.localizedDescription)
+            } else {
+                print("yikeso")
+            }
+        }.resume()
     }
 }
 

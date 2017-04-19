@@ -26,6 +26,7 @@ class UserSearchTableViewCell: UITableViewCell {
     var removeShareCallback: ((User) -> Void)?
     
     @IBAction func addConnectionButtonTap(_ sender: UIButton) {
+        print("hmm")
         addUserConnection()
     }
     
