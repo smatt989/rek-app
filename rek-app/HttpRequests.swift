@@ -30,6 +30,7 @@ extension User {
         static let sessionHeader = "Rekki-Session-Key"
         static let usernameHeader = "username"
         static let passwordHeader = "password"
+        static let emailHeader = "email"
     }
     
     static func search(query: String, success: @escaping ([User]) -> Void, failure: @escaping (Error) -> Void) {
@@ -54,7 +55,7 @@ extension User {
         var request = URLRequest(url: URL(string: Urls.createUser)!)
         request.httpMethod = "POST"
         request.jsonRequest()
-        request.httpBody = try! JSONSerialization.data(withJSONObject: newUser.toJsonDictionary(), options: [])
+        request.createUserHeaders(username: newUser.username, email: newUser.email, password: newUser.password)
         let session = URLSession.shared
         session.dataTask(with: request) { data, response, err in
             if let d = data, let user = self.parseUser(data: d) {

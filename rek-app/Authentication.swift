@@ -47,5 +47,11 @@ extension URLRequest {
             print("UNABLE TO AUTH")
         }
     }
+    
+    mutating func createUserHeaders(username: String, email: String, password: String) {
+        self.addValue(username, forHTTPHeaderField: User.Headers.usernameHeader)
+        self.addValue(email, forHTTPHeaderField: User.Headers.emailHeader)
+        self.addValue(password, forHTTPHeaderField: User.Headers.passwordHeader)
+    }
 
 }
