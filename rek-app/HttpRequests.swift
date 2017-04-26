@@ -22,6 +22,8 @@ extension User {
         static let awaitingUsers = domain+"/users/connections/awaiting"
         static let addUserConnection = domain+"/users/connections/create"
         static let removeUserConnection = domain+"/users/connections/delete"
+        static let validateUsername = domain+"/users/validate/username"
+        static let validateEmail = domain+"/users/validate/email"
     }
     
     struct Headers {
@@ -51,8 +53,7 @@ extension User {
     static func signUp(newUser: UserCreate, success: @escaping (User) -> Void, failure: @escaping (Error) -> Void) {
         var request = URLRequest(url: URL(string: Urls.createUser)!)
         request.httpMethod = "POST"
-        request.addValue("application/json",forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json",forHTTPHeaderField: "Accept")
+        request.jsonRequest()
         request.httpBody = try! JSONSerialization.data(withJSONObject: newUser.toJsonDictionary(), options: [])
         let session = URLSession.shared
         session.dataTask(with: request) { data, response, err in
@@ -67,6 +68,40 @@ extension User {
                 }
             }
         }.resume()
+    }
+    
+    static func validateUsername(username: String, success: @escaping (Bool) -> Void, failure: @escaping (Error) -> Void) {
+        var request = URLRequest(url: URL(string: Urls.validateUsername+"?username="+username)!)
+        request.httpMethod = "POST"
+        request.jsonRequest()
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, err in
+            if data != nil {
+                let str = String(data: data!, encoding: String.Encoding.utf8) as String!
+                success(str == "true")
+            } else if err != nil {
+                failure(err!)
+            } else {
+                print("eeekomon!")
+            }
+        }.resume()
+    }
+    
+    static func validateEmail(email: String, success: @escaping (Bool) -> Void, failure: @escaping (Error) -> Void) {
+        var request = URLRequest(url: URL(string: Urls.validateEmail+"?email="+email)!)
+        request.httpMethod = "POST"
+        request.jsonRequest()
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, err in
+            if data != nil {
+                let str = String(data: data!, encoding: String.Encoding.utf8) as String!
+                success(str == "true")
+            } else if err != nil {
+                failure(err!)
+            } else {
+                print("squeeekomon!")
+            }
+            }.resume()
     }
     
     static func saveDeviceToken(_ token: String, success: @escaping (Void) -> Void, failure: @escaping (Error) -> Void){

@@ -65,10 +65,12 @@ class UserSearchTableViewCell: UITableViewCell {
     
     private func addUserConnection() {
         let connectionRequest = UserConnectionAddRequest(addUserId: user!.id)
+        added = true
         User.addUser(addUserRequest: connectionRequest, success: { [weak weakself = self] _ in
-            weakself?.added = true
-            weakself?.setup()
-            }, failure: { _ in
+                weakself?.added = true
+                weakself?.setup()
+            }, failure: { [weak weakself = self] _ in
+                weakself?.added = false
                 print("failed to add")
         })
     }

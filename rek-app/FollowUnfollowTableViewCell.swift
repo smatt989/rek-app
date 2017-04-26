@@ -41,17 +41,21 @@ class FollowUnfollowTableViewCell: UITableViewCell {
     
     private func addUserConnection() {
         let connectionRequest = UserConnectionAddRequest(addUserId: user!.id)
+        following = true
         User.addUser(addUserRequest: connectionRequest, success: { [weak weakself = self] _ in
-            weakself?.following = true
-            }, failure: { _ in
+                weakself?.following = true
+            }, failure: { [weak weakself = self] _ in
+            weakself?.following = false
                 print("failed to add")
         })
     }
     
     private func removeUserConnection() {
+        following = false
         User.removeUser(userId: user!.id, success: { [weak weakself = self] in
-            weakself?.following = false
-            }, failure: { _ in
+                weakself?.following = false
+            }, failure: { [weak weakself = self] _ in
+                weakself?.following = true
                 print("failed to remove")
         })
     }

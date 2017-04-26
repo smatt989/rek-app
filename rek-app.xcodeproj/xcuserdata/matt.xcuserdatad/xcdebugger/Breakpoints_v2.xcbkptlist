@@ -35,5 +35,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "rek-app/SignUpViewController.swift"
+            timestampString = "514882421.338139"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "setupAlertForInputValue(_:input:label:alert:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "rek_app.SignUpViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; rek_app.SignUpViewController"
+                  moduleName = "rek-app"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/matt/Desktop/development/rek-app/rek-app/SignUpViewController.swift"
+                  timestampString = "514882225.836973"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "718">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "rek_app.SignUpViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;rek_app.SignUpViewController&gt;"
+                  moduleName = "rek-app"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/matt/Desktop/development/rek-app/rek-app/SignUpViewController.swift"
+                  timestampString = "514882225.857518"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "652">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
