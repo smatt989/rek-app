@@ -511,7 +511,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WCh-Tc-wbB">
                                                     <rect key="frame" x="301" y="-4" width="55" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Thanks!"/>
+                                                    <state key="normal" title="Thanks!">
+                                                        <color key="titleColor" red="0.36713191866874695" green="0.79864132404327393" blue="0.5882575511932373" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="thanksButtonTap:" destination="ucj-FP-1sd" eventType="touchUpInside" id="eKd-9B-K7x"/>
                                                     </connections>

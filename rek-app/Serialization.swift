@@ -121,8 +121,10 @@ extension RichDestination {
     static func parseRichDestinationDict(dict: [String: Any]) -> RichDestination {
         let destination = Destination.parseDestinationDict(dict: dict["destination"] as! [String: Any])
         let inboundRecommendations = (dict["inboundRecommendations"] as! [[String: Any]]).map{Recommendation.parseRecommendationDict(dict: $0)}
-        let reviews = (dict["reviews"] as! [[String: Any]]).map{Review.parseReviewDict(dict: $0)}
         let ownReview = (dict["ownReview"] as? [String: Any]).map{Review.parseReviewDict(dict: $0)}
+        let reviews = (dict["reviews"] as! [[String: Any]]).map{Review.parseReviewDict(dict: $0)}.sorted(by: {rev1, rev2 in
+            return rev1.user.id == ownReview?.user.id
+        })
         let thanksSent = (dict["thanksSent"] as! [[String: Any]]).map{Thank.parseThankDict(dict: $0)}
         let thanksReceived = (dict["thanksReceived"] as! [[String: Any]]).map{Thank.parseThankDict(dict: $0)}
         return RichDestination(destination: destination, inboundRecommendations: inboundRecommendations, reviews: reviews, ownReview: ownReview, thanksSent: thanksSent, thanksReceived: thanksReceived)
