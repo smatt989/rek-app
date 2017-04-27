@@ -20,6 +20,7 @@ extension User {
         static let usersSearch = domain+"/users/search"
         static let addedUsers = domain+"/users/connections/added"
         static let awaitingUsers = domain+"/users/connections/awaiting"
+        static let suggestedUsers = domain+"/users/connections/suggested"
         static let addUserConnection = domain+"/users/connections/create"
         static let removeUserConnection = domain+"/users/connections/delete"
         static let validateUsername = domain+"/users/validate/username"
@@ -219,6 +220,23 @@ extension User {
                 print("BRARRR")
             }
             }.resume()
+    }
+    
+    static func suggestedUsers(success: @escaping ([User]) -> Void, failure: @escaping (Error) -> Void) {
+        var request = URLRequest(url: URL(string: Urls.suggestedUsers)!)
+        request.httpMethod = "GET"
+        request.authenticate()
+        let session = URLSession.shared
+        session.dataTask(with: request) { data, response, err in
+            if let d = data {
+                let users = User.parseMany(data: d)
+                success(users)
+            } else if err != nil {
+                failure(err!)
+            } else {
+                print("SHWAPADOOP")
+            }
+        }.resume()
     }
     
     static func addUser(addUserRequest: UserConnectionAddRequest, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {

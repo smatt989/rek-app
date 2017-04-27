@@ -40,13 +40,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     private var addedUsers = [User]() {
         didSet {
-            restingTableUsers = awaitingUsers + addedUsers
+            restingTableUsers = suggestedUsers + addedUsers
         }
     }
     
-    private var awaitingUsers = [User]() {
+    private var suggestedUsers = [User]() {
         didSet {
-            restingTableUsers = awaitingUsers + addedUsers
+            restingTableUsers = suggestedUsers + addedUsers
         }
     }
     
@@ -59,9 +59,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         )
     }
     
-    private func loadAwaitingUsers() {
-        User.awaitingUsers(success: { [weak weakself = self] in
-            weakself?.awaitingUsers = $0
+    private func loadSuggestedUsers() {
+        User.suggestedUsers(success: { [weak weakself = self] in
+            weakself?.suggestedUsers = $0
             }, failure: {
                 print($0)
         }
@@ -193,7 +193,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     private func loadUsers() {
         loadAddedUsers()
-        loadAwaitingUsers()
+        loadSuggestedUsers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
