@@ -26,7 +26,7 @@ class ReviewTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        isUserInteractionEnabled = false
+        // isUserInteractionEnabled = false
         // Initialization code
     }
 

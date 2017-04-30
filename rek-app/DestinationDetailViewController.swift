@@ -83,6 +83,7 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
         setupView()
         reviewTable.delegate = self
         reviewTable.dataSource = self
+        reviewTable.allowsSelection = false
         setupRatingButtons()
     }
     
@@ -225,7 +226,7 @@ class DestinationDetailViewController: UIViewController, UITableViewDelegate, UI
     
     func thankForRecommendation(receiverUserId: Int) {
         let request = ThankRequest(receiverUserId: receiverUserId, destinationId: richDestination!.destination.id!)
-        ThankRequest.postThankRequest(request, success: { [weak weakself = self] _ in
+        ThankRequest.postThankRequest(request, success: { [weak weakself = self] in
             weakself?.loadSavedDestination()
             }, failure: { error in
                 print(error)

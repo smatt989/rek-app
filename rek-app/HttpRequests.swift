@@ -402,7 +402,7 @@ extension ThankRequest {
         static let createThank = domain+"/recommendations/thank"
     }
     
-    static func postThankRequest(_ thankRequest: ThankRequest, success: @escaping (Thank) -> Void, failure: @escaping (Error) -> Void) {
+    static func postThankRequest(_ thankRequest: ThankRequest, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         var request = URLRequest(url: URL(string: Urls.createThank)!)
         request.httpMethod = "POST"
         request.authenticate()
@@ -411,8 +411,8 @@ extension ThankRequest {
         let session = URLSession.shared
         session.dataTask(with: request) { data, response, err in
             if data != nil {
-                let thank = Thank.parseThank(data: data!)
-                success(thank!)
+                //let thank = Thank.parseThank(data: data!)
+                success()
             } else if err != nil {
                 failure(err!)
             } else {
